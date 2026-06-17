@@ -4,16 +4,19 @@ import path from "node:path";
 
 const dataFilePath = path.join(process.cwd(), "src/data/snippets.json");
 
-export const snippetsWrapper = async (fn) => {
-    try {
-        await fn();
-    }
-    catch (error) {
-        console.log(error);
+export const snippetsWrapper = (fn: Function) => {
+    return () => {
+        try {
+            fn();
+        }
+        catch (error) {
+            console.log(error);
+        }
+
     }
 }
 
-export async function getAll() {
+export const getAll = snippetsWrapper(async () => {
     const fileContents = await readFile(dataFilePath, "utf-8");
 
     const snippets = JSON.parse(fileContents);
@@ -21,16 +24,39 @@ export async function getAll() {
     return snippets.map((snippet: any) => {
         return { ...snippet, createdAt: new Date(snippet.createdAt) };
     });
-}
+})
 
-export async function getById() {
 
-}
+export const getById = snippetsWrapper(async () => {
+    const fileContents = await readFile(dataFilePath, "utf-8");
 
-export async function create() {
+    const snippets = JSON.parse(fileContents);
 
-}
+    return snippets.map((snippet: any) => {
+        return { ...snippet, createdAt: new Date(snippet.createdAt) };
+    });
+})
 
-export async function remove() {
 
-}
+
+export const create = snippetsWrapper(async () => {
+    const fileContents = await readFile(dataFilePath, "utf-8");
+
+    const snippets = JSON.parse(fileContents);
+
+    return snippets.map((snippet: any) => {
+        return { ...snippet, createdAt: new Date(snippet.createdAt) };
+    });
+})
+
+
+
+export const remove = snippetsWrapper(async () => {
+    const fileContents = await readFile(dataFilePath, "utf-8");
+
+    const snippets = JSON.parse(fileContents);
+
+    return snippets.map((snippet: any) => {
+        return { ...snippet, createdAt: new Date(snippet.createdAt) };
+    });
+})
