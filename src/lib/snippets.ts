@@ -17,43 +17,54 @@ export const snippetsWrapper = <Arg extends any[], Return>(fn: (...args: Arg) =>
     }
 };
 
-export const getAll = snippetsWrapper(async () => {
-    const fileContents = await readFile(dataFilePath, "utf-8");
+export const getAll = async () => {
+    try {
+        const fileContents = await readFile(dataFilePath, "utf-8");
 
-    const snippets: Snippet[] = JSON.parse(fileContents);
+        const snippets: Snippet[] = fileContents ? JSON.parse(fileContents) : [];
 
-    return snippets.map((snippet: Snippet) => {
-        return { ...snippet, createdAt: new Date(snippet.createdAt) };
-    });
-});
+        return snippets.map((snippet: Snippet) => {
+            return { ...snippet, createdAt: new Date(snippet.createdAt) };
+        });
+    }
+    catch (error: any) {
+        console.log(error);
+        if (error.code === "ENOENT") {
+            await writeFile(dataFilePath, "[]", "utf-8");
+        }
+        return [];
+    }
+};
 
 
 export const getById = snippetsWrapper(async (id: string) => {
-    const snippetList: Snippet[] | undefined = await getAll();
+    const snippetList: Snippet[] = await getAll();
 
-    const snippet: Snippet | undefined = snippetList?.find(item => item.id === id);
+    const snippet: Snippet | undefined = snippetList.find(item => item.id === id);
 
     return snippet;
 });
 
 
 
-// export const create = snippetsWrapper(async () => {
-//     const fileContents = await readFile(dataFilePath, "utf-8");
+export const create = snippetsWrapper(async (newSnippet: Snippet) => {
+    const snippetList: Snippet[] = await getAll();
 
-//     const snippets = JSON.parse(fileContents);
+    snippetList.push(newSnippet);
 
-//     return snippets.map((snippet: any) => {
-//         return { ...snippet, createdAt: new Date(snippet.createdAt) };
-//     });
-// });
+    if (snippetList) {
+        const snippetStr: string = JSON.stringify(snippetList);
+        await writeFile(dataFilePath, snippetStr, "utf-8");
+    }
+
+});
 
 
 
 export const remove = snippetsWrapper(async (id: string) => {
-    const snippetList: Snippet[] | undefined = await getAll();
+    const snippetList: Snippet[] = await getAll();
 
-    const newSnippetList: Snippet[] | undefined = snippetList?.filter(item => item.id !== id);
+    const newSnippetList: Snippet[] | undefined = snippetList.filter(item => item.id !== id);
 
     if (newSnippetList) {
         const snippetStr: string = JSON.stringify(newSnippetList);
