@@ -1,4 +1,5 @@
 import { readFile, writeFile } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { z } from "zod";
 import { Snippet } from "@/types";
@@ -15,13 +16,16 @@ const dataSchema = z.object({
     createdAt: z.date()
 });
 
+type CreateSnippetInput = Omit<Snippet, 'id' | 'createdAt'>;
+
 export const snippetsWrapper = <Arg extends any[], Return>(fn: (...args: Arg) => Promise<Return>) => {
     return async (...args: Arg) => {
         try {
             return await fn(...args);
         }
-        catch (error) {
+        catch (error: any) {
             console.log(error);
+            return { success: false, error: error.message }
         }
 
     }
@@ -57,8 +61,13 @@ export const getById = snippetsWrapper(async (id: string) => {
 
 
 
-export const create = snippetsWrapper(async (newSnippet: unknown) => {
-    const validatedSnippet = dataSchema.parse(newSnippet);
+export const create = snippetsWrapper(async (newSnippet: CreateSnippetInput) => {
+    const updatedNewSnippet = {
+        ...newSnippet,
+        id: randomUUID(),
+        createdAt: new Date(),
+    };
+    const validatedSnippet = dataSchema.parse(updatedNewSnippet);
 
     const snippetList: Snippet[] = await getAll();
 
@@ -68,6 +77,8 @@ export const create = snippetsWrapper(async (newSnippet: unknown) => {
         const snippetStr: string = JSON.stringify(snippetList);
         await writeFile(dataFilePath, snippetStr, "utf-8");
     }
+
+    return { success: true };
 
 });
 
@@ -82,5 +93,7 @@ export const remove = snippetsWrapper(async (id: string) => {
         const snippetStr: string = JSON.stringify(newSnippetList);
         await writeFile(dataFilePath, snippetStr, "utf-8");
     }
+
+    return { success: true };
 
 });
