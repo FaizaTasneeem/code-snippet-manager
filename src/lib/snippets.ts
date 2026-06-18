@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { Snippet } from "@/types";
 
@@ -15,43 +15,49 @@ export const snippetsWrapper = <Arg extends any[], Return>(fn: (...args: Arg) =>
         }
 
     }
-}
+};
 
 export const getAll = snippetsWrapper(async () => {
     const fileContents = await readFile(dataFilePath, "utf-8");
 
-    const snippets = JSON.parse(fileContents);
+    const snippets: Snippet[] = JSON.parse(fileContents);
 
-    return snippets.map((snippet: any) => {
+    return snippets.map((snippet: Snippet) => {
         return { ...snippet, createdAt: new Date(snippet.createdAt) };
     });
-})
+});
 
 
 export const getById = snippetsWrapper(async (id: string) => {
-    const snippetList: Snippet[] = await getAll();
-})
+    const snippetList: Snippet[] | undefined = await getAll();
+
+    const snippet: Snippet | undefined = snippetList?.find(item => item.id === id);
+
+    return snippet;
+});
 
 
 
-export const create = snippetsWrapper(async () => {
-    const fileContents = await readFile(dataFilePath, "utf-8");
+// export const create = snippetsWrapper(async () => {
+//     const fileContents = await readFile(dataFilePath, "utf-8");
 
-    const snippets = JSON.parse(fileContents);
+//     const snippets = JSON.parse(fileContents);
 
-    return snippets.map((snippet: any) => {
-        return { ...snippet, createdAt: new Date(snippet.createdAt) };
-    });
-})
+//     return snippets.map((snippet: any) => {
+//         return { ...snippet, createdAt: new Date(snippet.createdAt) };
+//     });
+// });
 
 
 
-export const remove = snippetsWrapper(async () => {
-    const fileContents = await readFile(dataFilePath, "utf-8");
+export const remove = snippetsWrapper(async (id: string) => {
+    const snippetList: Snippet[] | undefined = await getAll();
 
-    const snippets = JSON.parse(fileContents);
+    const newSnippetList: Snippet[] | undefined = snippetList?.filter(item => item.id !== id);
 
-    return snippets.map((snippet: any) => {
-        return { ...snippet, createdAt: new Date(snippet.createdAt) };
-    });
-})
+    if (newSnippetList) {
+        const snippetStr: string = JSON.stringify(newSnippetList);
+        await writeFile(dataFilePath, snippetStr, "utf-8");
+    }
+
+});
