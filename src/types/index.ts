@@ -1,4 +1,4 @@
-type Snippet = {
+export type Snippet = {
     id: string;
     title: string;
     language: 'js' | 'ts' | 'css' | 'html' | 'other';
