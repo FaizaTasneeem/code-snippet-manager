@@ -6,3 +6,5 @@ export type Snippet = {
     code: string;
     createdAt: Date;
 };
+
+export type CreateSnippetInput = Omit<Snippet, 'id' | 'createdAt'>;

@@ -2,7 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { z } from "zod";
-import { Snippet } from "@/types";
+import { Snippet, CreateSnippetInput } from "@/types";
 
 
 const dataFilePath = path.join(process.cwd(), "src/data/snippets.json");
@@ -16,7 +16,6 @@ const dataSchema = z.object({
     createdAt: z.date()
 });
 
-type CreateSnippetInput = Omit<Snippet, 'id' | 'createdAt'>;
 
 export const snippetsWrapper = <Arg extends any[], Return>(fn: (...args: Arg) => Promise<Return>) => {
     return async (...args: Arg) => {
