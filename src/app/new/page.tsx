@@ -24,16 +24,15 @@ export default function NewFormPage() {
         const name = event.target.name;
         const value = event.target.value;
 
-        if (name === "tags") {
-            setFormValues({ ...formValues, [name]: [...formValues.tags, value] });
-        }
-        else {
-            setFormValues({ ...formValues, [name]: value });
-        }
+        name === "tags"
+            ? setFormValues({ ...formValues, [name]: [...formValues.tags, value] })
+            : setFormValues({ ...formValues, [name]: value });
 
     }
 
     async function handleFormSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+        event.preventDefault();
+
         const createResponse = await createSnippet(formValues);
         console.log(createResponse);
 
@@ -43,10 +42,10 @@ export default function NewFormPage() {
     return (
         <form className="bg-gray-400 flex flex-col p-8 rounded-lg" onSubmit={handleFormSubmit}>
             <label htmlFor="title" className="text-gray-500">Title</label>
-            <input className="p-4 m-2 border border-gray-300 rounded-lg" type="text" id="title" name="title" onChange={handleFormChange} />
+            <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="title" name="title" onChange={handleFormChange} />
 
             <label htmlFor="language" className="text-gray-500">Language</label>
-            <select className="p-4 m-2 border border-gray-300 rounded-lg" id="language" name="language" value={formValues.language} onChange={handleFormChange}>
+            <select className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" id="language" name="language" value={formValues.language} onChange={handleFormChange}>
                 <option>js</option>
                 <option>ts</option>
                 <option>css</option>
@@ -55,10 +54,10 @@ export default function NewFormPage() {
             </select>
 
             <label htmlFor="tags" className="text-gray-500">Tags</label>
-            <input className="p-4 m-2 border border-gray-300 rounded-lg" type="text" id="tags" name="tags" onChange={handleFormChange} />
+            <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="tags" name="tags" onChange={handleFormChange} />
 
             <label htmlFor="code" className="text-gray-500">Code</label>
-            <input className="p-4 m-2 border border-gray-300 rounded-lg" type="text" id="code" name="code" onChange={handleFormChange} />
+            <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="code" name="code" onChange={handleFormChange} />
 
             <button className="cursor-pointer p-4 m-2 mt-12 text-gray-500 border border-gray-300 rounded-lg">Submit</button>
         </form>
