@@ -24,7 +24,6 @@ export const snippetsWrapper = <Arg extends any[], Return>(fn: (...args: Arg) =>
         }
         catch (error: any) {
             console.log(error);
-            return { success: false, error: error.message }
         }
 
     }
