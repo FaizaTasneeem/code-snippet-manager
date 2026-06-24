@@ -6,9 +6,8 @@ export default async function Home() {
   const snippetsList: Snippet[] = await getAll();
 
   return (
-    <div className="flex flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+    <div className="w-full flex flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <SnippetGridView snippetsList={snippetsList} />
-
     </div>
   );
 }
