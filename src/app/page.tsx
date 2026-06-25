@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { Snippet } from "@/types";
 import { getAll, getByLanguage } from "@/lib/snippets";
 import Search from "./Search";
@@ -15,11 +14,8 @@ export default async function Home({
 
   return (
     <div className="w-full flex flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <Suspense fallback={<div className="w-full p-4 px-20 text-center text-zinc-400">Loading filter...</div>}>
-        <Search />
-      </Suspense>
+      <Search />
       <SnippetGridView snippetsList={snippetsList} />
     </div>
   );
 }
-
