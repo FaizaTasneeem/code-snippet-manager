@@ -37,11 +37,11 @@ export default function NewFormPage() {
     }
 
     return (
-        <form className="bg-gray-400 flex flex-col p-8 rounded-lg" onSubmit={handleFormSubmit}>
-            <label htmlFor="title" className="text-gray-500">Title</label>
+        <form className="bg-gray-100 flex flex-col p-8 rounded-lg" onSubmit={handleFormSubmit}>
+            <label htmlFor="title" className="mt-4 text-gray-500">Title</label>
             <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="title" value={formValues.title} name="title" onChange={handleFormChange} />
 
-            <label htmlFor="language" className="text-gray-500">Language</label>
+            <label htmlFor="language" className="mt-4 text-gray-500">Language</label>
             <select className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" id="language" value={formValues.language} name="language" onChange={handleFormChange}>
                 <option>js</option>
                 <option>ts</option>
@@ -50,13 +50,13 @@ export default function NewFormPage() {
                 <option>other</option>
             </select>
 
-            <label htmlFor="tags" className="text-gray-500">Tags</label>
+            <label htmlFor="tags" className="mt-4 text-gray-500">Tags</label>
             <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="tags" value={formValues.tags} name="tags" onChange={handleFormChange} />
 
-            <label htmlFor="code" className="text-gray-500">Code</label>
+            <label htmlFor="code" className="mt-4 text-gray-500">Code</label>
             <textarea className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" id="code" value={formValues.code} name="code" onChange={handleFormChange} />
 
-            <button className="cursor-pointer p-4 m-2 mt-12 text-gray-500 border border-gray-300 rounded-lg">Submit</button>
+            <button className="bg-gray-300 cursor-pointer p-4 m-2 mt-12 text-gray-500 border border-gray-300 rounded-lg shadow-lg">Submit</button>
         </form>
     );
 }

@@ -24,6 +24,7 @@ export const snippetsWrapper = <Arg extends any[], Return>(fn: (...args: Arg) =>
         }
         catch (error: any) {
             console.log(error);
+            throw error;
         }
 
     }
@@ -55,6 +56,19 @@ export const getById = snippetsWrapper(async (id: string) => {
     const snippet: Snippet | undefined = snippetList.find(item => item.id === id);
 
     return snippet;
+});
+
+
+
+export const getByLanguage = snippetsWrapper(async (lang: string) => {
+    const snippetList: Snippet[] = await getAll();
+
+    const snippets: Snippet[] | undefined = snippetList.filter(item => item.language === lang);
+
+    if (snippets) return snippets;
+
+    return [];
+
 });
 
 
