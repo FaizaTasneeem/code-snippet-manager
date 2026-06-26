@@ -73,6 +73,24 @@ export const getByLanguage = snippetsWrapper(async (lang: string) => {
 
 
 
+export const getByTitleOrTags = snippetsWrapper(async (q: string) => {
+    const snippetList: Snippet[] = await getAll();
+
+    const snippets: Snippet[] | undefined = snippetList.filter(item => {
+        return (
+            item.title === q ||
+            item.tags.some(t => t === q)
+        )
+    });
+
+    if (snippets) return snippets;
+
+    return [];
+
+});
+
+
+
 export const create = snippetsWrapper(async (newSnippet: CreateSnippetInput) => {
     const updatedNewSnippet = {
         ...newSnippet,
