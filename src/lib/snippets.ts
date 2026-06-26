@@ -73,13 +73,11 @@ export const getByLanguage = snippetsWrapper(async (lang: string) => {
 
 
 
-export const getByTitleOrTags = snippetsWrapper(async (q: string) => {
-    const snippetList: Snippet[] = await getAll();
-
+export const getByTitleOrTags = snippetsWrapper(async (q: string, snippetList: Snippet[]) => {
     const snippets: Snippet[] | undefined = snippetList.filter(item => {
         return (
-            item.title === q ||
-            item.tags.some(t => t === q)
+            item.title.toLowerCase().includes(q.toLowerCase()) ||
+            item.tags.some(t => t.toLowerCase().includes(q.toLowerCase()))
         )
     });
 

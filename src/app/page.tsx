@@ -10,9 +10,11 @@ export default async function Home({
 }) {
   const { q, lang = "all" } = await searchParams;
 
-  const snippetsList: Snippet[] = q
-    ? await getByTitleOrTags(q)
-    : lang === "all" ? await getAll() : await getByLanguage(lang);
+  let snippetsList: Snippet[] = lang === "all" ? await getAll() : await getByLanguage(lang);
+
+  if (q) {
+    snippetsList = await getByTitleOrTags(q, snippetsList);
+  }
 
   return (
     <div className="w-full flex flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
