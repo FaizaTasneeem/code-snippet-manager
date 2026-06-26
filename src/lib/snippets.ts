@@ -31,6 +31,8 @@ export const snippetsWrapper = <Arg extends any[], Return>(fn: (...args: Arg) =>
 };
 
 export const getAll = async () => {
+    // await new Promise((resolve) => setTimeout(resolve, 3000)); // 3-second delay
+
     try {
         const fileContents = await readFile(dataFilePath, "utf-8");
 
