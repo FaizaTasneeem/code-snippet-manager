@@ -4,6 +4,8 @@ A high-performance, responsive code snippet manager built with **Next.js (App Ro
 
 🚀 **Ready for Portfolio / CV Showcase**
 
+🔗 **Live Demo:** [code-snippet-manager-beige.vercel.app](https://code-snippet-manager-beige.vercel.app/)
+
 ---
 
 ## 🛠️ Key Skills & Tech Stack Demonstrated
