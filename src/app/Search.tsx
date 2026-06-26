@@ -5,9 +5,9 @@ import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 
 function Search() {
-    const [searchQuery, setSearchQuery] = useState("");
     const searchParams = useSearchParams();
     const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
 
     const currentLang = searchParams.get("lang") || "all";
 
