@@ -11,7 +11,7 @@ function SnippetGridView({ snippetsList }: { snippetsList: Snippet[] }) {
     }
 
     return (
-        <div className="w-full p-8 px-20 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="w-full p-8 px-20 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {snippetsList.map((snippet: Snippet) => {
                 return (
                     <div key={snippet.id} className="p-4 flex flex-col border rounded-lg cursor-pointer overflow-hidden" onClick={() => handleTitleClick(snippet.id)}>
