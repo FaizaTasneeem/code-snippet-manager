@@ -19,7 +19,7 @@ function CopyToClipBoardButton({ textToCopy }: { textToCopy: string }) {
     useEffect(() => {
         if (showModal) {
             const timerId = setTimeout(() => {
-                setShowModal(!showModal);
+                setShowModal(false);
             }, 2000)
             return () => clearTimeout(timerId);
         }

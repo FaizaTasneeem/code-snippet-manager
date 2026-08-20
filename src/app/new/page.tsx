@@ -39,10 +39,10 @@ export default function NewFormPage() {
     return (
         <form className="bg-gray-100 flex flex-col p-8 rounded-lg" onSubmit={handleFormSubmit}>
             <label htmlFor="title" className="mt-4 text-gray-500">Title</label>
-            <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="title" value={formValues.title} name="title" onChange={handleFormChange} />
+            <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="title" value={formValues.title} name="title" onChange={handleFormChange} required />
 
             <label htmlFor="language" className="mt-4 text-gray-500">Language</label>
-            <select className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" id="language" value={formValues.language} name="language" onChange={handleFormChange}>
+            <select className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" id="language" value={formValues.language} name="language" onChange={handleFormChange} required>
                 <option>js</option>
                 <option>ts</option>
                 <option>css</option>
@@ -51,10 +51,10 @@ export default function NewFormPage() {
             </select>
 
             <label htmlFor="tags" className="mt-4 text-gray-500">Tags</label>
-            <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="tags" value={formValues.tags} name="tags" onChange={handleFormChange} />
+            <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="tags" value={formValues.tags} name="tags" onChange={handleFormChange} required />
 
             <label htmlFor="code" className="mt-4 text-gray-500">Code</label>
-            <textarea className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" id="code" value={formValues.code} name="code" onChange={handleFormChange} />
+            <textarea className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" id="code" value={formValues.code} name="code" onChange={handleFormChange} required />
 
             <button className="bg-gray-300 cursor-pointer p-4 m-2 mt-12 text-gray-500 border border-gray-300 rounded-lg shadow-lg">Submit</button>
         </form>
