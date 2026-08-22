@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { getById } from "@/lib/snippets";
 import { Snippet } from "@/types";
 import DeleteButton from "./DeleteButton";
@@ -35,17 +35,18 @@ export default async function SingleSnippetPage({ params }: {
                 </div>
 
                 <div className="mt-6 flex flex-row">
-                    {snippet.tags && snippet.tags.map((t, id) => <span key={id} className="py-1 px-3 text-cyan-500 rounded-lg border border-blue-600 mr-2">#{t}</span>)}
+                    {snippet.tags && snippet.tags.map((t, id) => <span key={id} className="py-1 px-3 text-cyan-500 rounded-lg border border-cyan-600 mr-2">#{t}</span>)}
                 </div>
 
-                <div className="w-full p-4 mt-4 border border-gray-700 rounded-xl bg-[#0a0a0a]">
+                <div className="w-full p-4 mt-4 border border-gray-700 rounded-xl bg-[#0C0F19]">
                     <div className="flex justify-end">
                         <CopyToClipBoardButton textToCopy={snippet.code} />
                     </div>
                     <div className="mt-4">
                         <SyntaxHighlighter
                             language={snippet.language}
-                            style={dracula}
+                            style={coldarkDark}
+                            customStyle={{ borderRadius: "0.75rem" }}
                             showLineNumbers={true}
                         >
                             {snippet.code}
