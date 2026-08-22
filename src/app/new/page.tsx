@@ -10,7 +10,7 @@ export default function NewFormPage() {
 
     return (
         <>
-            <form className="bg-gray-100 flex flex-col p-8 rounded-lg" action={formAction}>
+            <form className="mb-10 bg-gray-400 flex flex-col p-8 rounded-lg" action={formAction}>
                 <label htmlFor="title" className="mt-4 text-gray-600">Title</label>
                 <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="title" name="title" required />
                 {getFieldError("title") &&
@@ -38,7 +38,7 @@ export default function NewFormPage() {
                     <p className="text-red-500">{getFieldError("code")}</p>
                 }
 
-                <button className="bg-gray-300 cursor-pointer p-4 m-2 mt-12 text-gray-600 border border-gray-300 rounded-lg shadow-lg">Submit</button>
+                <button className="bg-gray-300 cursor-pointer p-4 m-2 mt-8 text-gray-600 border border-gray-300 rounded-lg shadow-lg">Submit</button>
             </form>
 
             {isPending &&
