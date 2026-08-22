@@ -13,8 +13,8 @@ type formDataType = {
 }
 
 export async function createSnippet(_previousState: any, newSnippetFormData: FormData) {
+    const { title, language, code, tags } = Object.fromEntries(newSnippetFormData) as formDataType;
     try {
-        const { title, language, code, tags } = Object.fromEntries(newSnippetFormData) as formDataType;
         const tagsList = tags ? tags.split(",").map(t => t.trim()) : [];
 
         const createResponse = await create({
@@ -34,9 +34,10 @@ export async function createSnippet(_previousState: any, newSnippetFormData: For
                 }
             })
             const issueList = [...new Set(issueListWithDuplicate)];
-            return { error: issueList };
+            return { title, language, code, tags, error: issueList };
         }
         return {
+            title, language, code, tags,
             error: [{
                 errorField: null,
                 errorMsg: error instanceof Error ? error.message : "An unexpected error occurred.",

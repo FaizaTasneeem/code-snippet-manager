@@ -19,15 +19,15 @@ export default function NewFormPage() {
                 <div className="w-full flex gap-4">
                     <label htmlFor="title" className="flex flex-col w-[70%] mt-2 text-gray-300 text-sm font-bold">
                         Title *
-                        <input className={`bg-[#0C0F19] p-4 py-2 m-2 border rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("title") ? 'border-red-500' : 'border-gray-600'}`} type="text" id="title" name="title" required />
+                        <input className={`bg-[#0C0F19] p-4 py-2 m-2 border rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("title") ? 'border-red-400' : 'border-gray-600'}`} type="text" id="title" name="title" defaultValue={state?.title} required />
                         {getFieldError("title") &&
-                            <p className="text-red-500">{getFieldError("title")}</p>
+                            <p className="text-red-400">{getFieldError("title")}</p>
                         }
                     </label>
 
                     <label htmlFor="language" className="flex flex-col w-[30%] mt-2 text-gray-300 text-sm font-bold">
                         Language
-                        <select className="bg-[#0C0F19] p-4 py-2 m-2 border border-gray-600 rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500" id="language" name="language" required>
+                        <select className="bg-[#0C0F19] p-4 py-2 m-2 border border-gray-600 rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500" id="language" name="language" defaultValue={state?.language} required>
                             <option>js</option>
                             <option>ts</option>
                             <option>css</option>
@@ -39,19 +39,19 @@ export default function NewFormPage() {
                 </div>
 
                 <label htmlFor="tags" className="flex flex-col mt-4 text-gray-300 text-sm font-bold">
-                    Tags <span className="text-gray-600">Comma separated (e.g. react, hooks, utility)</span>
-                    <input className={`bg-[#0C0F19] p-4 py-2 m-2 border rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("tags") ? 'border-red-500' : 'border-gray-600'}`} type="text" id="tags" name="tags" />
+                    Tags *<span className="text-gray-600">Comma separated (e.g. react, hooks, utility)</span>
+                    <input className={`bg-[#0C0F19] p-4 py-2 m-2 border rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("tags") ? 'border-red-400' : 'border-gray-600'}`} type="text" id="tags" name="tags" defaultValue={state?.tags} required />
                     {getFieldError("tags") &&
-                        <p className="text-red-500">{getFieldError("tags")}</p>
+                        <p className="text-red-400">{getFieldError("tags")}</p>
                     }
 
                 </label>
 
                 <label htmlFor="code" className="flex flex-col mt-4 text-gray-300 text-sm font-bold">
                     Code Snippet *
-                    <textarea className={`bg-[#0C0F19] p-4 m-2 border rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("code") ? 'border-red-500' : 'border-gray-600'}`} id="code" name="code" required />
+                    <textarea className={`bg-[#0C0F19] p-4 m-2 border rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("code") ? 'border-red-400' : 'border-gray-600'}`} id="code" name="code" defaultValue={state?.code} required />
                     {getFieldError("code") &&
-                        <p className="text-red-500">{getFieldError("code")}</p>
+                        <p className="text-red-400">{getFieldError("code")}</p>
                     }
                 </label>
 

@@ -34,7 +34,11 @@ function CopyToClipBoardButton({ textToCopy }: { textToCopy: string }) {
                     : <Check size={16} className="text-green-500" />
                 }
             </div>
-            {showModal && <div className="fixed inset-x-0 mx-auto w-60 top-10 text-center p-4 border rounded-lg">Code Copied Successfully!</div>}
+            {showModal &&
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+                    <div className=" w-60 top-10 bg-neutral-900 text-center p-4 border border-gray-600 rounded-lg">Code Copied Successfully!</div>
+                </div>
+            }
         </div>
     )
 }
