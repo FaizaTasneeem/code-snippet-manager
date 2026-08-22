@@ -33,16 +33,16 @@ function Search() {
     }, [searchQuery])
 
     return (
-        <div className="w-full p-4 px-20 flex flex-row justify-between">
-            <input className="p-4 w-[50%] border rounded-lg" type="text" value={searchQuery} onChange={handleSearchQueryChange} placeholder="Search by title or tag..." />
+        <div className="w-full mt-8 p-4 px-20 flex flex-col items-start">
+            <input className="w-full py-2.5 px-4 w-[50%] border border-gray-600 rounded-lg bg-[#111827] " type="text" value={searchQuery} onChange={handleSearchQueryChange} placeholder="🔍 Search snippets by title or tag..." />
 
-            <div className="flex flex-col md:flex-row justify-center gap-2">
-                <Link href={generateLangLink("all")} className={`p-2 border-b-2 w-18 truncate text-center cursor-pointer ${currentLang === "all" ? "border-blue-400" : "border-white"}`}>All</Link>
-                <Link href={generateLangLink("html")} className={`p-2 border-b-2 w-18 truncate text-center cursor-pointer ${currentLang === "html" ? "border-blue-400" : "border-white"}`}>HTML</Link>
-                <Link href={generateLangLink("css")} className={`p-2 border-b-2 w-18 truncate text-center cursor-pointer ${currentLang === "css" ? "border-blue-400" : "border-white"}`}>CSS</Link>
-                <Link href={generateLangLink("js")} className={`p-2 border-b-2 w-18 truncate text-center cursor-pointer ${currentLang === "js" ? "border-blue-400" : "border-white"}`}>JS</Link>
-                <Link href={generateLangLink("ts")} className={`p-2 border-b-2 w-18 truncate text-center cursor-pointer ${currentLang === "ts" ? "border-blue-400" : "border-white"}`}>TS</Link>
-                <Link href={generateLangLink("other")} className={`p-2 border-b-2 w-18 truncate text-center cursor-pointer ${currentLang === "other" ? "border-blue-400" : "border-white"}`}>OTHER</Link>
+            <div className="mt-4 flex flex-col md:flex-row justify-center gap-2 font-bold text-xs">
+                <Link href={generateLangLink("all")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "all" ? "bg-blue-400 text-black" : "border-gray-600"}`}>All</Link>
+                <Link href={generateLangLink("html")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "html" ? "bg-blue-400 text-black" : "border-gray-600"}`}>HTML</Link>
+                <Link href={generateLangLink("css")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "css" ? "bg-blue-400 text-black" : "border-gray-600"}`}>CSS</Link>
+                <Link href={generateLangLink("js")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "js" ? "bg-blue-400 text-black" : "border-gray-600"}`}>JS</Link>
+                <Link href={generateLangLink("ts")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "ts" ? "bg-blue-400 text-black" : "border-gray-600"}`}>TS</Link>
+                <Link href={generateLangLink("other")} className={`p-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "other" ? "bg-blue-400 text-black" : "border-gray-600"}`}>OTHER</Link>
             </div>
         </div>
     )

@@ -17,7 +17,11 @@ export default async function Home({
   }
 
   return (
-    <div className="w-full flex flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+    <div className="w-full flex flex-col items-center justify-center font-sans ">
+      <div className="w-full flex flex-col px-20 mt-10 font-medium ">
+        <h1 className="text-xl">Code Snippets</h1>
+        <h4 className="text-sm text-gray-500 mt-2">Your secure, locally cached developer notebook</h4>
+      </div>
       <Search />
       <SnippetGridView snippetsList={snippetsList} />
     </div>
