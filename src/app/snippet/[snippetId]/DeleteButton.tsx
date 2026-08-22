@@ -1,5 +1,6 @@
 "use client";
 
+import { Trash2 } from "lucide-react";
 import { deleteSnippet } from "@/app/actions";
 
 function DeleteButton({ snippetIdToDelete }: { snippetIdToDelete: string }) {
@@ -9,7 +10,9 @@ function DeleteButton({ snippetIdToDelete }: { snippetIdToDelete: string }) {
     }
 
     return (
-        <div className="cursor-pointer border w-8 h-8 rounded-lg flex items-center justify-center" onClick={handleSnippetDelete}>D</div>
+        <div className="cursor-pointer border w-8 h-8 rounded-lg flex items-center justify-center" onClick={handleSnippetDelete}>
+            <Trash2 size={16} />
+        </div>
     )
 }
 

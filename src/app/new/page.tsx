@@ -1,62 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState } from "react";
 import { createSnippet } from "@/app/actions";
-import { Snippet } from "@/types";
 
 export default function NewFormPage() {
-    const [formValues, setFormValues] = useState<{
-        title: string;
-        language: Snippet["language"];
-        tags: string;
-        code: string;
-    }>({
-        title: "",
-        language: "html",
-        tags: "",
-        code: "",
-    });
+    const [state, formAction, isPending] = useActionState(createSnippet, null);
 
-    function handleFormChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
-        const name = event.target.name;
-        const value = event.target.value;
-
-        setFormValues({ ...formValues, [name]: value });
-    }
-
-    async function handleFormSubmit(event: React.SubmitEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        const formData = new FormData(event.currentTarget);
-
-        const tags = formData.get("tags") as string;
-
-        const tagsList = tags ? tags.split(",").map(t => t.trim()) : [];
-
-        await createSnippet({ ...formValues, tags: tagsList });
-    }
+    const getFieldError = (field: string) => state?.error?.find(i => i.errorField === field)?.errorMsg;
 
     return (
-        <form className="bg-gray-100 flex flex-col p-8 rounded-lg" onSubmit={handleFormSubmit}>
-            <label htmlFor="title" className="mt-4 text-gray-500">Title</label>
-            <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="title" value={formValues.title} name="title" onChange={handleFormChange} required />
+        <>
+            <form className="bg-gray-100 flex flex-col p-8 rounded-lg" action={formAction}>
+                <label htmlFor="title" className="mt-4 text-gray-600">Title</label>
+                <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="title" name="title" required />
+                {getFieldError("title") &&
+                    <p className="text-red-500">{getFieldError("title")}</p>
+                }
 
-            <label htmlFor="language" className="mt-4 text-gray-500">Language</label>
-            <select className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" id="language" value={formValues.language} name="language" onChange={handleFormChange} required>
-                <option>js</option>
-                <option>ts</option>
-                <option>css</option>
-                <option>html</option>
-                <option>other</option>
-            </select>
+                <label htmlFor="language" className="mt-4 text-gray-600">Language</label>
+                <select className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" id="language" name="language" required>
+                    <option>js</option>
+                    <option>ts</option>
+                    <option>css</option>
+                    <option>html</option>
+                    <option>other</option>
+                </select>
 
-            <label htmlFor="tags" className="mt-4 text-gray-500">Tags</label>
-            <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="tags" value={formValues.tags} name="tags" onChange={handleFormChange} required />
+                <label htmlFor="tags" className="mt-4 text-gray-600">Tags <span className="text-gray-400">(separated by commas)</span></label>
+                <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="tags" name="tags" required />
+                {getFieldError("tags") &&
+                    <p className="text-red-500">{getFieldError("tags")}</p>
+                }
 
-            <label htmlFor="code" className="mt-4 text-gray-500">Code</label>
-            <textarea className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" id="code" value={formValues.code} name="code" onChange={handleFormChange} required />
+                <label htmlFor="code" className="mt-4 text-gray-600">Code</label>
+                <textarea className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" id="code" name="code" required />
+                {getFieldError("code") &&
+                    <p className="text-red-500">{getFieldError("code")}</p>
+                }
 
-            <button className="bg-gray-300 cursor-pointer p-4 m-2 mt-12 text-gray-500 border border-gray-300 rounded-lg shadow-lg">Submit</button>
-        </form>
+                <button className="bg-gray-300 cursor-pointer p-4 m-2 mt-12 text-gray-600 border border-gray-300 rounded-lg shadow-lg">Submit</button>
+            </form>
+
+            {isPending &&
+                <p className="text-gray-400 italic">...Creating Snippet</p>
+            }
+
+        </>
+
     );
 }
