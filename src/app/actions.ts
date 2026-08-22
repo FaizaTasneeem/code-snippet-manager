@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { create, remove } from "@/lib/snippets";
-import { CreateSnippetInput } from "@/types";
 
 type formDataType = {
     title: string,
@@ -27,7 +26,6 @@ export async function createSnippet(_previousState: any, newSnippetFormData: For
         console.log(createResponse);
     }
     catch (error) {
-        console.log(error)
         if (error instanceof z.ZodError) {
             const issueListWithDuplicate = error.issues.map(issue => {
                 return {

@@ -11,7 +11,7 @@ const dataSchema = z.object({
     id: z.string(),
     title: z.string().min(1, { message: "This field cannot be empty" }),
     language: z.enum(['js', 'ts', 'css', 'html', 'other']),
-    tags: z.array(z.string().min(1, { message: "This field cannot be empty" })),
+    tags: z.array(z.string()),
     code: z.string().min(1, { message: "This field cannot be empty" }),
     createdAt: z.date()
 });
