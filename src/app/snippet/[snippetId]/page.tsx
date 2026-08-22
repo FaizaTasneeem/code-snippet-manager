@@ -21,25 +21,24 @@ export default async function SingleSnippetPage({ params }: {
     }
 
     return (
-        <div className="w-[75%] mb-8 p-6 px-10 flex flex-col justify-center items-center border border-gray-500 rounded-lg">
+        <div className="bg-[#111827] w-[90%] mb-8 mt-10 p-6 px-10 flex flex-col justify-center items-center border border-gray-600 rounded-xl">
             <div className="w-full flex flex-col justify-start items-start">
-                <div className="w-full flex justify-end items-end">
+                <div className="w-full mt-4 flex flex-row justify-between text-2xl">
+                    <div className="flex flex-col">
+                        <span className="flex items-center gap-4">
+                            {snippet.title}
+                            <span className="bg-blue-900 font-bold text-xs text-blue-400 p-1 px-2 rounded-lg border border-blue-600">{snippet.language.toLocaleUpperCase()}</span>
+                        </span>
+                        <span className="mt-2 text-sm text-gray-400">Created at - {snippet.createdAt.toDateString()}</span>
+                    </div>
                     <DeleteButton snippetIdToDelete={snippetId} />
                 </div>
 
-                <div className="w-full mt-4 flex flex-row justify-between text-2xl">
-                    <div className="flex flex-col">
-                        <span>{snippet.title}</span>
-                        <span className="mt-2 text-sm text-gray-400">Created at - {snippet.createdAt.toDateString()}</span>
-                    </div>
-                    <span>[{snippet.language}]</span>
-                </div>
-
                 <div className="mt-6 flex flex-row">
-                    {snippet.tags && snippet.tags.map((t, id) => <span key={id} className="mr-2">#{t}</span>)}
+                    {snippet.tags && snippet.tags.map((t, id) => <span key={id} className="py-1 px-3 text-cyan-500 rounded-lg border border-blue-600 mr-2">#{t}</span>)}
                 </div>
 
-                <div className="w-full p-4 mt-4 border border-gray-700 rounded-lg">
+                <div className="w-full p-4 mt-4 border border-gray-700 rounded-xl bg-[#0a0a0a]">
                     <div className="flex justify-end">
                         <CopyToClipBoardButton textToCopy={snippet.code} />
                     </div>
