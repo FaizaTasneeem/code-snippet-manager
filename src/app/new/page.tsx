@@ -9,8 +9,8 @@ export default function NewFormPage() {
     const getFieldError = (field: string) => state?.error?.find(i => i.errorField === field)?.errorMsg;
 
     return (
-        <>
-            <form className="mb-10 bg-gray-400 flex flex-col p-8 rounded-lg" action={formAction}>
+        <div className="w-full">
+            <form className="w-full mb-10 bg-gray-400 flex flex-col p-8 rounded-lg" action={formAction}>
                 <label htmlFor="title" className="mt-4 text-gray-600">Title</label>
                 <input className="p-4 m-2 border border-gray-300 rounded-lg text-gray-600" type="text" id="title" name="title" required />
                 {getFieldError("title") &&
@@ -45,7 +45,7 @@ export default function NewFormPage() {
                 <p className="text-gray-400 italic">...Creating Snippet</p>
             }
 
-        </>
+        </div>
 
     );
 }

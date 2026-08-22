@@ -33,7 +33,7 @@ function Search() {
     }, [searchQuery])
 
     return (
-        <div className="w-full mt-8 p-4 px-20 flex flex-col items-start">
+        <div className="w-full mt-4 p-4 px-20 flex flex-col items-start">
             <input className="w-full py-2.5 px-4 w-[50%] border border-gray-600 rounded-lg bg-[#111827] " type="text" value={searchQuery} onChange={handleSearchQueryChange} placeholder="🔍 Search snippets by title or tag..." />
 
             <div className="mt-4 flex flex-col md:flex-row justify-center gap-2 font-bold text-xs">

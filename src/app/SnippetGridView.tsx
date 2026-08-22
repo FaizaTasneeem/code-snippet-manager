@@ -25,7 +25,7 @@ function SnippetGridView({ snippetsList }: { snippetsList: Snippet[] }) {
                         </div>
 
 
-                        <div className="mt-2 w-full h-20 p-2 bg-[#0d1420] border border-gray-500 rounded-lg truncate">
+                        <div className="mt-2 w-full h-20 p-2 bg-[#0d1420] border border-gray-500 rounded-lg line-clamp-3 whitespace-pre-wrap">
                             {snippet.code}
                         </div>
                     </div>
