@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, X } from "lucide-react";
 
 function CopyToClipBoardButton({ textToCopy }: { textToCopy: string }) {
     const [showModal, setShowModal] = useState(false);
@@ -35,8 +35,14 @@ function CopyToClipBoardButton({ textToCopy }: { textToCopy: string }) {
                 }
             </div>
             {showModal &&
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-                    <div className=" w-60 top-10 bg-neutral-900 text-center p-4 border border-gray-600 rounded-lg">Code Copied Successfully!</div>
+                <div className="fixed inset-0 flex items-center justify-center">
+                    <div className="fixed top-20 bg-[#8CBD53] text-center p-4 border border-gray-600 rounded-lg flex gap-4 items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <Check size={16} className="text-white rounded-full border-2" />
+                            Code Copied Successfully!
+                        </div>
+                        <X size={16} className="cursor-pointer" onClick={() => setShowModal(false)} />
+                    </div>
                 </div>
             }
         </div>
