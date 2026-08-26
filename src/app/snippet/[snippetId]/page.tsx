@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { getById } from "@/lib/snippets";
-import { Snippet } from "@/types";
+import { SnippetSelect } from "@/db/schema";
 import DeleteButton from "./DeleteButton";
 import CopyToClipBoardButton from "./CopyToClipBoardButton";
 
@@ -12,7 +12,7 @@ export default async function SingleSnippetPage({ params }: {
 
     const { snippetId } = await params;
 
-    const snippet: Snippet | undefined = await getById(snippetId);
+    const snippet: SnippetSelect | undefined = await getById(Number(snippetId));
 
     // const getLanguage = (lang: string) => 
 
@@ -29,9 +29,9 @@ export default async function SingleSnippetPage({ params }: {
                             {snippet.title}
                             <span className="bg-blue-900 font-bold text-xs text-blue-400 p-1 px-2 rounded-lg border border-blue-600">{snippet.language.toLocaleUpperCase()}</span>
                         </span>
-                        <span className="mt-2 text-sm text-gray-400">Created at - {snippet.createdAt.toDateString()}</span>
+                        <span className="mt-2 text-sm text-gray-400">Created at - {new Date(snippet.createdAt).toDateString()}</span>
                     </div>
-                    <DeleteButton snippetIdToDelete={snippetId} />
+                    <DeleteButton snippetIdToDelete={Number(snippetId)} />
                 </div>
 
                 <div className="mt-6 flex flex-row">

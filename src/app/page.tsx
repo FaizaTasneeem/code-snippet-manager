@@ -2,6 +2,7 @@ import { Snippet } from "@/types";
 import { getAll, getByLanguage, getByTitleOrTags } from "@/lib/snippets";
 import Search from "./Search";
 import SnippetGridView from "./SnippetGridView";
+import { SnippetSelect } from "@/db/schema";
 
 export default async function Home({
   searchParams
@@ -10,9 +11,9 @@ export default async function Home({
 }) {
   const { q, lang = "all" } = await searchParams;
 
-  let snippetsList: Snippet[] = lang === "all" ? await getAll() : await getByLanguage(lang);
+  let snippetsList: SnippetSelect[] | undefined = lang === "all" ? await getAll() : await getByLanguage(lang);
 
-  if (q) {
+  if (q && snippetsList) {
     snippetsList = await getByTitleOrTags(q, snippetsList);
   }
 

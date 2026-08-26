@@ -1,18 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { SnippetSelect } from "@/db/schema";
 import { Snippet } from "@/types";
+import { useRouter } from "next/navigation";
 
-function SnippetGridView({ snippetsList }: { snippetsList: Snippet[] }) {
+function SnippetGridView({ snippetsList }: { snippetsList: SnippetSelect[] | undefined }) {
     const router = useRouter();
 
-    function handleTitleClick(snippetId: string) {
+    function handleTitleClick(snippetId: number) {
         router.push(`snippet/${snippetId}`);
     }
 
     return (
         <div className="w-full p-8 px-20 grid grid-cols-1 md:grid-cols-3 gap-4">
-            {snippetsList.map((snippet: Snippet) => {
+            {snippetsList?.map((snippet: SnippetSelect) => {
                 return (
                     <div key={snippet.id} className="p-4 bg-[#111827] flex flex-col border border-gray-600 rounded-lg cursor-pointer overflow-hidden" onClick={() => handleTitleClick(snippet.id)}>
                         <div className="flex flex-row justify-between">

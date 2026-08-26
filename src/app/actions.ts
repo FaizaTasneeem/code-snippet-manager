@@ -49,7 +49,7 @@ export async function createSnippet(_previousState: any, newSnippetFormData: For
     redirect("/");
 }
 
-export async function deleteSnippet(snippetId: string) {
+export async function deleteSnippet(snippetId: number) {
     try {
         const deleteResponse = await remove(snippetId);
         console.log(deleteResponse);

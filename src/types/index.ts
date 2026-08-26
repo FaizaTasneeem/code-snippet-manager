@@ -1,5 +1,5 @@
 export type Snippet = {
-    id: string;
+    id: number;
     title: string;
     language: 'js' | 'ts' | 'css' | 'html' | 'other';
     tags: string[];

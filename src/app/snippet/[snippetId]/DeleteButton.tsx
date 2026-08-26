@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Trash2 } from "lucide-react";
 import { deleteSnippet } from "@/app/actions";
 
-function DeleteButton({ snippetIdToDelete }: { snippetIdToDelete: string }) {
+function DeleteButton({ snippetIdToDelete }: { snippetIdToDelete: number }) {
     const [showModal, setShowModal] = useState(false);
 
     async function handleSnippetDelete() {
