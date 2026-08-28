@@ -1,7 +1,6 @@
-import { Snippet } from "@/types";
 import { getAll, getByLanguage, getByTitleOrTags } from "@/lib/snippets";
-import Search from "./Search";
-import SnippetGridView from "./SnippetGridView";
+import Search from "../components/snippet/Search";
+import SnippetGridView from "../components/snippet/SnippetGridView";
 import { SnippetSelect } from "@/db/schema";
 
 export default async function Home({

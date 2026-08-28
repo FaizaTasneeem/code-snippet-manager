@@ -3,8 +3,8 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { getById } from "@/lib/snippets";
 import { SnippetSelect } from "@/db/schema";
-import DeleteButton from "./DeleteButton";
-import CopyToClipBoardButton from "./CopyToClipBoardButton";
+import DeleteButton from "../../../components/snippet/DeleteButton";
+import CopyToClipBoardButton from "../../../components/snippet/CopyToClipBoardButton";
 
 export default async function SingleSnippetPage({ params }: {
     params: Promise<{ snippetId: string }>
