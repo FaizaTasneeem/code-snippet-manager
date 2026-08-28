@@ -1,7 +1,6 @@
 "use client";
 
 import { SnippetSelect } from "@/db/schema";
-import { Snippet } from "@/types";
 import { useRouter } from "next/navigation";
 
 function SnippetGridView({ snippetsList }: { snippetsList: SnippetSelect[] | undefined }) {

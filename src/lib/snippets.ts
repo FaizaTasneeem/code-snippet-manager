@@ -16,15 +16,11 @@ export const snippetsWrapper = <Arg extends any[], Return>(fn: (...args: Arg) =>
     }
 };
 
-export const getAll = async () => {
-    try {
-        const snippetsList: SnippetSelect[] = await db.select().from(snippets);
-        return snippetsList;
-    }
-    catch (error: any) {
-        console.log(error);
-    }
-};
+
+export const getAll = snippetsWrapper(async () => {
+    const snippetsList: SnippetSelect[] = await db.select().from(snippets);
+    return snippetsList;
+});
 
 
 export const getById = snippetsWrapper(async (id: number) => {
@@ -33,16 +29,10 @@ export const getById = snippetsWrapper(async (id: number) => {
 });
 
 
-
-export const getByLanguage = snippetsWrapper(async (lang: string) => {
-    const snippetList: SnippetSelect[] | undefined = await getAll();
-
-    const snippets: SnippetSelect[] | undefined = snippetList?.filter(item => item.language === lang);
-
-    return snippets ? snippets : [];
-
+export const getByLanguage = snippetsWrapper(async (lang: SnippetSelect["language"]) => {
+    const snippetsList: SnippetSelect[] = await db.select().from(snippets).where(eq(snippets.language, lang));
+    return snippetsList ? snippetsList : [];
 });
-
 
 
 export const getByTitleOrTags = snippetsWrapper(async (q: string, snippetList: SnippetSelect[]) => {
@@ -66,12 +56,10 @@ export const getByTitleOrTags = snippetsWrapper(async (q: string, snippetList: S
 });
 
 
-
 export const create = snippetsWrapper(async (newSnippet: SnippetInsert) => {
     await db.insert(snippets).values(newSnippet);
     return { success: true };
 });
-
 
 
 export const remove = snippetsWrapper(async (id: number) => {
