@@ -1,17 +1,10 @@
-"use client";
-
-import { useRouter } from 'next/navigation';
+import Link from "next/dist/client/link";
 
 export default function CreateButton() {
-    const router = useRouter();
-
-    function handleButtonClick() {
-        router.push("/new");
-    }
 
     return (
         <div>
-            <button className="bg-cyan-500 py-2 px-4 text-black text-sm font-bold rounded-lg cursor-pointer" onClick={handleButtonClick}>+ New Snippet</button>
+            <Link href="/new" className="bg-cyan-500 py-2 px-4 text-black text-sm font-bold rounded-lg cursor-pointer">+ New Snippet</Link>
         </div>
     )
 }

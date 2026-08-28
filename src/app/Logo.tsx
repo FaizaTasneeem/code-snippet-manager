@@ -1,16 +1,8 @@
-"use client";
-
-import { useRouter } from 'next/navigation';
+import Link from "next/dist/client/link";
 
 export default function Logo() {
-    const router = useRouter();
-
-    function handleLogoClick() {
-        router.push("/");
-    }
-
     return (
-        <div className='flex items-center cursor-pointer'>
+        <Link href="/" className='flex items-center cursor-pointer'>
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="1" y="1" width="30" height="30" rx="6" fill="#102839" stroke="#06B6D4" strokeWidth="2" />
 
@@ -20,10 +12,10 @@ export default function Logo() {
 
             </svg>
 
-            <span className="p-4 font-bold text-xl" onClick={handleLogoClick}>
+            <span className="p-4 font-bold text-xl">
                 Snippet
                 <span className="text-cyan-500"> Vault</span>
             </span>
-        </div>
+        </Link>
     )
 }
