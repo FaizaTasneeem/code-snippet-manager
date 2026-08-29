@@ -25,7 +25,8 @@ function Search() {
         const timer = setTimeout(() => {
             const params = new URLSearchParams(searchParams.toString());
             params.set("q", searchQuery);
-            router.push(`/?${params.toString()}`);
+            const currentQ = searchParams.get("q") || "";
+            if (currentQ !== searchQuery) router.push(`/?${params.toString()}`);
         }, 500);
 
         return () => clearTimeout(timer);

@@ -1,7 +1,7 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 import { create, remove } from "@/lib/snippets";
 
@@ -13,24 +13,26 @@ type formDataType = {
 }
 
 const dataSchema = z.object({
-    title: z.string().min(1, { message: "This field cannot be empty" }),
+    title: z.preprocess(
+        (title: string) => (title.trim()),
+        z.string().min(1, { message: "This field cannot be empty" })
+    ),
     language: z.enum(['html', 'css', 'js', 'ts', 'other']),
-    tags: z.array(z.string().min(1, { message: "This field cannot be empty" })),
-    code: z.string().min(1, { message: "This field cannot be empty" }),
+    tags: z.preprocess(
+        (tags: string) => (tags.trim() ? tags.split(",").map(t => t.trim()).filter(t => t.length > 0) : []),
+        z.array(z.string()).min(1, { message: "This field cannot be empty" })
+    ),
+    code: z.preprocess(
+        (code: string) => (code.trim()),
+        z.string().min(1, { message: "This field cannot be empty" })
+    ),
 });
 
 export async function createSnippet(_previousState: any, newSnippetFormData: FormData) {
-    const { title, language, code, tags } = Object.fromEntries(newSnippetFormData) as formDataType;
+    const rawData = Object.fromEntries(newSnippetFormData) as formDataType;
+
     try {
-        const tagsList = tags ? tags.split(",").map(t => t.trim()) : [];
-
-        const validatedSnippet = dataSchema.parse({
-            title: title.trim(),
-            language,
-            tags: tagsList,
-            code: code.trim(),
-        });
-
+        const validatedSnippet = dataSchema.parse(rawData);
         const createResponse = await create(validatedSnippet);
         console.log(createResponse);
     }
@@ -43,10 +45,10 @@ export async function createSnippet(_previousState: any, newSnippetFormData: For
                 }
             })
             const issueList = [...new Set(issueListWithDuplicate)];
-            return { title, language, code, tags, error: issueList };
+            return { ...rawData, error: issueList };
         }
         return {
-            title, language, code, tags,
+            ...rawData,
             error: [{
                 errorField: null,
                 errorMsg: error instanceof Error ? error.message : "An unexpected error occurred.",
