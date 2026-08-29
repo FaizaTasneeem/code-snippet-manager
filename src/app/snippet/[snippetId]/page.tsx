@@ -35,7 +35,7 @@ export default async function SingleSnippetPage({ params }: {
                 </div>
 
                 <div className="mt-6 flex flex-row">
-                    {snippet.tags && snippet.tags.map((t, id) => <span key={id} className="py-1 px-3 text-cyan-500 rounded-full border border-cyan-600 mr-2">#{t}</span>)}
+                    {snippet.tags && snippet.tags.map(t => <span key={t} className="py-1 px-3 text-cyan-500 rounded-full border border-cyan-600 mr-2">#{t}</span>)}
                 </div>
 
                 <div className="w-full p-4 mt-4 border border-gray-700 rounded-xl bg-[#0C0F19]">

@@ -1,4 +1,4 @@
-import Link from "next/dist/client/link";
+import Link from "next/link";
 import { SnippetSelect } from "@/db/schema";
 
 function SnippetGridView({ snippetsList }: { snippetsList: SnippetSelect[] | undefined }) {
@@ -13,7 +13,7 @@ function SnippetGridView({ snippetsList }: { snippetsList: SnippetSelect[] | und
                         </div>
 
                         <div className="mt-4 flex flex-row text-blue-400 text-sm">
-                            {snippet.tags && snippet.tags.map((t, id) => <span key={id} className="mr-2">#{t}</span>)}
+                            {snippet.tags && snippet.tags.map(t => <span key={t} className="mr-2">#{t}</span>)}
                         </div>
 
 
