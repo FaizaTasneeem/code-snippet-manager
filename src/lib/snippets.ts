@@ -62,6 +62,12 @@ export const create = snippetsWrapper(async (newSnippet: SnippetInsert) => {
 });
 
 
+export const update = snippetsWrapper(async (id: number, code: string) => {
+    await db.update(snippets).set({ code }).where(eq(snippets.id, id));
+    return { success: true };
+});
+
+
 export const remove = snippetsWrapper(async (id: number) => {
     await db.delete(snippets).where(eq(snippets.id, id));
     return { success: true };

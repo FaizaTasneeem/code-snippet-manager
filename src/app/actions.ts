@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { create, remove } from "@/lib/snippets";
+import { create, remove, update } from "@/lib/snippets";
 
 type formDataType = {
     title: string,
@@ -54,6 +54,20 @@ export async function createSnippet(_previousState: any, newSnippetFormData: For
                 errorMsg: error instanceof Error ? error.message : "An unexpected error occurred.",
             }]
         };
+    }
+
+    revalidatePath("/");
+    redirect("/");
+}
+
+export async function updateSnippet(snippetId: number, code: string) {
+    try {
+        const updateResponse = await update(snippetId, code);
+        console.log(updateResponse);
+    }
+    catch (error) {
+        console.log("Caught error in server action while updating snippet: ", error);
+        return { error };
     }
 
     revalidatePath("/");

@@ -5,16 +5,22 @@ import { getById } from "@/lib/snippets";
 import { SnippetSelect } from "@/db/schema";
 import DeleteButton from "../../../components/snippet/DeleteButton";
 import CopyToClipBoardButton from "../../../components/snippet/CopyToClipBoardButton";
+import UpdateButton from "@/components/snippet/UpdateButton";
+import EditSaveAndCancel from "@/components/snippet/EditSaveAndCancel";
+import { updateSnippet } from "@/app/actions";
+import { useActionState } from "react";
 
-export default async function SingleSnippetPage({ params }: {
-    params: Promise<{ snippetId: string }>
+export default async function SingleSnippetPage({ params, searchParams }: {
+    params: Promise<{ snippetId: string }>,
+    searchParams: Promise<{ edit?: string }>
 }) {
 
     const { snippetId } = await params;
+    const { edit } = await searchParams;
+    const [state, formAction, isPending] = useActionState(updateSnippet, null);
 
     const snippet: SnippetSelect | undefined = await getById(Number(snippetId));
-
-    // const getLanguage = (lang: string) => 
+    const isEditing = edit === "true";
 
     if (!snippet) {
         notFound();
@@ -31,7 +37,10 @@ export default async function SingleSnippetPage({ params }: {
                         </span>
                         <span className="mt-2 text-sm text-gray-400">Created at - {new Date(snippet.createdAt).toDateString()}</span>
                     </div>
-                    <DeleteButton snippetIdToDelete={Number(snippetId)} />
+                    <div className="flex gap-2">
+                        <UpdateButton snippetId={snippetId} isEditing={isEditing} />
+                        <DeleteButton snippetIdToDelete={Number(snippetId)} />
+                    </div>
                 </div>
 
                 <div className="mt-6 flex flex-row">
@@ -43,15 +52,31 @@ export default async function SingleSnippetPage({ params }: {
                         <CopyToClipBoardButton textToCopy={snippet.code} />
                     </div>
                     <div className="mt-4">
-                        <SyntaxHighlighter
-                            language={snippet.language}
-                            style={coldarkDark}
-                            customStyle={{ borderRadius: "0.75rem" }}
-                            showLineNumbers={true}
-                        >
-                            {snippet.code}
-                        </SyntaxHighlighter>
+                        {isEditing ? (
+                            <form id="snippet-update-form" action={formAction}>
+                                <textarea
+                                    defaultValue={snippet.code}
+                                    name="code"
+                                    className="w-full h-64 p-4 font-mono text-sm bg-gray-900 text-gray-100 rounded-xl border border-gray-700 focus:outline-none focus:border-blue-500"
+                                />
+                            </form>
+                        ) : (
+                            <SyntaxHighlighter
+                                language={snippet.language}
+                                style={coldarkDark}
+                                customStyle={{ borderRadius: "0.75rem" }}
+                                showLineNumbers={true}
+                            >
+                                {snippet.code}
+                            </SyntaxHighlighter>
+                        )}
                     </div>
+
+                    {isEditing &&
+                        <div className="flex justify-end">
+                            <EditSaveAndCancel snippetId={snippetId} isEditing={isEditing} />
+                        </div>
+                    }
                 </div>
             </div>
         </div>
