@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { SnippetSelect } from "@/db/schema";
 
 function SnippetGridView({ snippetsList }: { snippetsList: SnippetSelect[] | undefined }) {
@@ -18,7 +20,13 @@ function SnippetGridView({ snippetsList }: { snippetsList: SnippetSelect[] | und
 
 
                         <div className="mt-2 w-full h-20 p-2 bg-[#0d1420] border border-gray-500 rounded-lg line-clamp-3 whitespace-pre-wrap">
-                            {snippet.code}
+                            <SyntaxHighlighter
+                                language={snippet.language}
+                                style={coldarkDark}
+                                customStyle={{ background: "transparent", backgroundColor: "transparent", margin: 0, padding: 0, fontSize: "0.7rem" }}
+                            >
+                                {snippet.code}
+                            </SyntaxHighlighter>
                         </div>
                     </Link>
                 )
