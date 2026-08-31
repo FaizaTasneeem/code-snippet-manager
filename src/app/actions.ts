@@ -60,18 +60,21 @@ export async function createSnippet(_previousState: any, newSnippetFormData: For
     redirect("/");
 }
 
-export async function updateSnippet(snippetId: number, code: string) {
+export async function updateSnippet(snippetId: number, _previousState: any, formData: FormData) {
     try {
+        const code = formData.get("code") as string;
         const updateResponse = await update(snippetId, code);
         console.log(updateResponse);
     }
     catch (error) {
         console.log("Caught error in server action while updating snippet: ", error);
-        return { error };
+        return {
+            error: error instanceof Error ? error.message : "Failed to update snippet"
+        };
     }
 
-    revalidatePath("/");
-    redirect("/");
+    revalidatePath(`/snippet/${snippetId}`);
+    redirect(`/snippet/${snippetId}`);
 }
 
 export async function deleteSnippet(snippetId: number) {
@@ -81,7 +84,9 @@ export async function deleteSnippet(snippetId: number) {
     }
     catch (error) {
         console.log("Caught error in server action while deleting: ", error);
-        return { error };
+        return {
+            error: error instanceof Error ? error.message : "Failed to delete snippet"
+        };
     }
 
     revalidatePath("/");

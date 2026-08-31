@@ -6,9 +6,7 @@ import { SnippetSelect } from "@/db/schema";
 import DeleteButton from "../../../components/snippet/DeleteButton";
 import CopyToClipBoardButton from "../../../components/snippet/CopyToClipBoardButton";
 import UpdateButton from "@/components/snippet/UpdateButton";
-import EditSaveAndCancel from "@/components/snippet/EditSaveAndCancel";
-import { updateSnippet } from "@/app/actions";
-import { useActionState } from "react";
+import EditSnippetForm from "@/components/snippet/EditSnippetForm";
 
 export default async function SingleSnippetPage({ params, searchParams }: {
     params: Promise<{ snippetId: string }>,
@@ -17,10 +15,10 @@ export default async function SingleSnippetPage({ params, searchParams }: {
 
     const { snippetId } = await params;
     const { edit } = await searchParams;
-    const [state, formAction, isPending] = useActionState(updateSnippet, null);
 
     const snippet: SnippetSelect | undefined = await getById(Number(snippetId));
     const isEditing = edit === "true";
+
 
     if (!snippet) {
         notFound();
@@ -53,13 +51,7 @@ export default async function SingleSnippetPage({ params, searchParams }: {
                     </div>
                     <div className="mt-4">
                         {isEditing ? (
-                            <form id="snippet-update-form" action={formAction}>
-                                <textarea
-                                    defaultValue={snippet.code}
-                                    name="code"
-                                    className="w-full h-64 p-4 font-mono text-sm bg-gray-900 text-gray-100 rounded-xl border border-gray-700 focus:outline-none focus:border-blue-500"
-                                />
-                            </form>
+                            <EditSnippetForm snippetId={snippet.id} snippetCode={snippet.code} />
                         ) : (
                             <SyntaxHighlighter
                                 language={snippet.language}
@@ -72,11 +64,6 @@ export default async function SingleSnippetPage({ params, searchParams }: {
                         )}
                     </div>
 
-                    {isEditing &&
-                        <div className="flex justify-end">
-                            <EditSaveAndCancel snippetId={snippetId} isEditing={isEditing} />
-                        </div>
-                    }
                 </div>
             </div>
         </div>

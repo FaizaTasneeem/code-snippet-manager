@@ -6,7 +6,7 @@ function SnippetGridView({ snippetsList }: { snippetsList: SnippetSelect[] | und
         <div className="w-full p-8 px-20 grid grid-cols-1 md:grid-cols-3 gap-4">
             {snippetsList?.map((snippet: SnippetSelect) => {
                 return (
-                    <Link href={`snippet/${snippet.id}?edit=false`} key={snippet.id} className="p-4 bg-[#111827] flex flex-col border border-gray-600 rounded-lg cursor-pointer overflow-hidden" >
+                    <Link href={`snippet/${snippet.id}`} key={snippet.id} className="p-4 bg-[#111827] flex flex-col border border-gray-600 rounded-lg cursor-pointer overflow-hidden" >
                         <div className="flex flex-row justify-between">
                             <span className="truncate">{snippet.title}</span>
                             <span className="px-2 border border-blue-600 rounded-lg text-blue-400 text-sm truncate">{snippet.language}</span>
