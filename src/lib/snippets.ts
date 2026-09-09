@@ -42,17 +42,7 @@ export const getByTitleOrTags = snippetsWrapper(async (q: string, snippetList: S
             item.tags.some(t => t.toLowerCase().includes(q.toLowerCase()))
         )
     });
-
-    if (snippets) {
-        const strDateSnippets = snippets.map(snippet => ({
-            ...snippet,
-            createdAt: snippet.createdAt.toString()
-        }));
-        return strDateSnippets;
-    }
-
-    return [];
-
+    return snippets;
 });
 
 
