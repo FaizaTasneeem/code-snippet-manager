@@ -4,6 +4,7 @@ import { snippets } from "@/db/schema";
 import {
     getAll, getById, getByTitleOrTags, create, update, remove
 } from "../snippets";
+import { eq } from "drizzle-orm";
 
 vi.mock("@/db", () => (
     {
@@ -27,6 +28,8 @@ const newSnippet = {
     tags: ["vue", "frontend"],
     code: "const count = ref(0);"
 };
+
+const newCode = "const count = ref(0);";
 
 
 describe("testing getByTitleOrTags", () => {
@@ -97,18 +100,35 @@ describe("testing snippets db queries", () => {
         expect(result).toEqual({ success: true });
     });
 
+    it("calls `db.update` with the numeric snippet ID and updated code", async () => {
+        const mockSet = vi.fn();
+        const mockWhere = vi.fn().mockResolvedValue([]);
+
+        vi.mocked(db.update).mockReturnValue({
+            set: mockSet.mockReturnValue({
+                where: mockWhere
+            })
+        } as any);
+
+        const result = await update(2, newCode);
+
+        expect(db.update).toHaveBeenCalledWith(snippets);
+        expect(mockSet).toHaveBeenCalledWith({ code: newCode });
+        expect(mockWhere).toHaveBeenCalledWith(eq(snippets.id, 2));
+        expect(result).toEqual({ success: true });
+    });
 
     it("calls `db.delete` with the numeric snippet ID", async () => {
-        const mockEq = vi.fn((id: number) => dummySnippets.some(snippet => snippet.id === id));
+        const mockWhere = vi.fn().mockResolvedValue([]);
 
         vi.mocked(db.delete).mockReturnValue({
-            where: vi.fn().mockResolvedValue(mockEq(2))
+            where: mockWhere
         } as any);
 
         const result = await remove(2);
 
         expect(db.delete).toHaveBeenCalledWith(snippets);
-        expect(mockEq).toHaveBeenCalledWith(2);
+        expect(mockWhere).toHaveBeenCalledWith(eq(snippets.id, 2));
         expect(result).toEqual({ success: true });
     });
 
