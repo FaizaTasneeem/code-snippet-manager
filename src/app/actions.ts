@@ -12,7 +12,7 @@ type formDataType = {
     tags: string
 }
 
-const dataSchema = z.object({
+export const dataSchema = z.object({
     title: z.preprocess(
         (title: string) => (title.trim()),
         z.string().min(1, { message: "This field cannot be empty" })

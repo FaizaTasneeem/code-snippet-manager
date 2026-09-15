@@ -1,10 +1,10 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
+import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { snippets } from "@/db/schema";
-import {
-    getAll, getById, getByTitleOrTags, create, update, remove
-} from "../snippets";
-import { eq } from "drizzle-orm";
+import { getAll, getById, getByTitleOrTags, create, update, remove } from "../snippets";
+import { dataSchema } from "../../app/actions";
+
 
 vi.mock("@/db", () => (
     {
@@ -20,6 +20,7 @@ vi.mock("@/db", () => (
 const dummySnippets = [
     { id: 1, title: 'React Hook', language: 'ts' as const, tags: ['react', 'frontend'], code: 'const x = 1;', createdAt: new Date().toISOString() },
     { id: 2, title: 'CSS Grid', language: 'css' as const, tags: ['styling', 'grid'], code: '.box { display: grid; }', createdAt: new Date().toISOString() },
+    { id: 3, title: 'HTML', language: 'css' as const, tags: [], code: '.box { display: grid; }', createdAt: new Date().toISOString() },
 ];
 
 const newSnippet = {
@@ -46,6 +47,11 @@ describe("testing getByTitleOrTags", () => {
     it("returns an empty array `[]` when neither title nor tag matches", async () => {
         const filteredSnippets = await getByTitleOrTags("demo", dummySnippets);
         expect(filteredSnippets).toEqual([]);
+    });
+
+    it("matches on title and does not crash when a snippet has empty tags []", async () => {
+        const filteredSnippets = await getByTitleOrTags("HTML", dummySnippets);
+        expect(filteredSnippets).toEqual([dummySnippets[2]]);
     });
 });
 
@@ -78,7 +84,7 @@ describe("testing snippets db queries", () => {
     it("returns undefined when the snippet is not found from the database", async () => {
         vi.mocked(db.select).mockReturnValue({
             from: vi.fn().mockReturnValue({
-                where: vi.fn().mockResolvedValue([dummySnippets.find(snippet => snippet.id === 3)])
+                where: vi.fn().mockResolvedValue([dummySnippets.find(snippet => snippet.id === 4)])
             } as any)
         } as any);
 
@@ -132,4 +138,29 @@ describe("testing snippets db queries", () => {
         expect(result).toEqual({ success: true });
     });
 
+});
+
+
+describe("dataSchema validation", () => {
+    it("rejects snippets with empty or whitespace-only title with an error message", () => {
+        const emptyTitleData = {
+            title: "   ",
+            language: "ts",
+            code: "const x = 1;",
+            tags: "typescript, test",
+        };
+
+        expect(() => dataSchema.parse(emptyTitleData)).toThrow("This field cannot be empty");
+    });
+
+    it("rejects snippets with an invalid language option", () => {
+        const invalidLanguageData = {
+            title: "Valid Title",
+            language: "python",
+            code: "print('hello')",
+            tags: "python, test",
+        };
+
+        expect(() => dataSchema.parse(invalidLanguageData)).toThrow();
+    });
 });
