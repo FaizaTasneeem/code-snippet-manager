@@ -83,10 +83,21 @@ test('Language Tab Filtering', async ({ page }) => {
     await expect(page).toHaveURL('/?lang=css');
 });
 
-// test('Required Field Validation', async ({ page }) => {
-//     await page.goto('/');
+test('Required Field Validation', async ({ page }) => {
+    await page.goto('/');
 
-// });
+    await page.getByRole('link', { name: '+ New Snippet' }).click();
+
+    await page.getByLabel('Title').fill(' ');
+    await page.getByLabel('Language').selectOption('ts');
+    await page.getByLabel('Tags').fill('test, automated, playwright');
+    await page.getByLabel('Code Snippet').fill('console.log("Hello from Playwright E2E!");');
+
+    await page.getByRole('button', { name: 'Save Snippet' }).click();
+
+    await expect(page.getByText('This field cannot be empty')).toBeVisible();
+
+});
 
 // test('Copy Code to Clipboard', async ({ page }) => {
 //     await page.goto('/');
