@@ -18,14 +18,18 @@ test('Home page loads and shows navigation & filter elements', async ({ page }) 
 test('Create a new snippet (The Full Creation Flow)', async ({ page }) => {
     await page.goto('/');
 
-    await expect(page.getByText('Code Snippets')).toBeVisible();
+    await page.getByRole('link', { name: '+ New Snippet' }).click();
 
-    await expect(page.getByPlaceholder('🔍 Search snippets by title or tag...')).toBeVisible();
+    await expect(page.getByText('Create New Snippet')).toBeVisible();
 
-    await expect(page.getByRole('link', { name: "ALL", exact: true })).toBeVisible();
-    await expect(page.getByRole('link', { name: "HTML", exact: true })).toBeVisible();
-    await expect(page.getByRole('link', { name: "CSS", exact: true })).toBeVisible();
-    await expect(page.getByRole('link', { name: "JS", exact: true })).toBeVisible();
-    await expect(page.getByRole('link', { name: "TS", exact: true })).toBeVisible();
-    await expect(page.getByRole('link', { name: "OTHER", exact: true })).toBeVisible();
+    await page.getByLabel('Title').fill('[E2E] Automated Test Snippet');
+    await page.getByLabel('Language').selectOption('ts');
+    await page.getByLabel('Tags').fill('test, automated, playwright');
+    await page.getByLabel('Code Snippet').fill('console.log("Hello from Playwright E2E!");');
+
+    await page.getByRole('button', { name: 'Save Snippet' }).click();
+
+    await expect(page).toHaveURL('/');
+
+    await expect(page.getByText('[E2E] Automated Test Snippet')).toBeVisible();
 });

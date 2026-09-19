@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { snippets } from "@/db/schema";
 import { getAll, getById, getByTitleOrTags, create, update, remove } from "../snippets";
-import { dataSchema } from "../../app/actions";
+import { dataSchema } from "../validations";
 
 
 vi.mock("@/db", () => (
