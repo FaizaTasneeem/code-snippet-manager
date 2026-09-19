@@ -96,10 +96,18 @@ test('Required Field Validation', async ({ page }) => {
     await page.getByRole('button', { name: 'Save Snippet' }).click();
 
     await expect(page.getByText('This field cannot be empty')).toBeVisible();
-
 });
 
-// test('Copy Code to Clipboard', async ({ page }) => {
-//     await page.goto('/');
+test('Copy Code to Clipboard', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
 
-// });
+    await page.goto('/');
+
+    await page.getByText('firsthtml').click();
+
+    await expect(page).toHaveURL(/\/snippet\/\d+/);
+
+    await page.locator('svg.lucide-copy').click();
+
+    await expect(page.getByText('Code Copied Successfully!')).toBeVisible();
+});
