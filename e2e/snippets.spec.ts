@@ -33,3 +33,21 @@ test('Create a new snippet (The Full Creation Flow)', async ({ page }) => {
 
     await expect(page.getByText('[E2E] Automated Test Snippet')).toBeVisible();
 });
+
+test('Delete the created snippet (Modal Confirmation Flow)', async ({ page }) => {
+    await page.goto('/');
+
+    await page.getByText('[E2E] Automated Test Snippet').click();
+
+    await expect(page).toHaveURL(/\/snippet\/\d+/);
+
+    await page.locator('svg.lucide-trash-2').click();
+
+    await expect(page.getByText('Are you sure you want to delete this snippet?')).toBeVisible();
+
+    await page.getByRole('button', { name: 'Delete' }).click();
+
+    await expect(page).toHaveURL('/');
+
+    await expect(page.getByText('[E2E] Automated Test Snippet')).not.toBeVisible();
+});
