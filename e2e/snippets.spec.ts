@@ -73,10 +73,15 @@ test('Search with Debounce', async ({ page }) => {
 
 });
 
-// test('Language Tab Filtering', async ({ page }) => {
-//     await page.goto('/');
+test('Language Tab Filtering', async ({ page }) => {
+    await page.goto('/');
 
-// });
+    await page.getByRole('link', { name: "JS", exact: true }).click();
+    await expect(page).toHaveURL('/?lang=js');
+
+    await page.getByRole('link', { name: "CSS", exact: true }).click();
+    await expect(page).toHaveURL('/?lang=css');
+});
 
 // test('Required Field Validation', async ({ page }) => {
 //     await page.goto('/');
