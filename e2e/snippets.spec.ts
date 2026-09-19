@@ -15,39 +15,41 @@ test('Home page loads and shows navigation & filter elements', async ({ page }) 
     await expect(page.getByRole('link', { name: "OTHER", exact: true })).toBeVisible();
 });
 
-test('Create a new snippet (The Full Creation Flow)', async ({ page }) => {
-    await page.goto('/');
+test.describe.serial('group', () => {
+    test('Create a new snippet (The Full Creation Flow)', async ({ page }) => {
+        await page.goto('/');
 
-    await page.getByRole('link', { name: '+ New Snippet' }).click();
+        await page.getByRole('link', { name: '+ New Snippet' }).click();
 
-    await expect(page.getByText('Create New Snippet')).toBeVisible();
+        await expect(page.getByText('Create New Snippet')).toBeVisible();
 
-    await page.getByLabel('Title').fill('[E2E] Automated Test Snippet');
-    await page.getByLabel('Language').selectOption('ts');
-    await page.getByLabel('Tags').fill('test, automated, playwright');
-    await page.getByLabel('Code Snippet').fill('console.log("Hello from Playwright E2E!");');
+        await page.getByLabel('Title').fill('[E2E] Automated Test Snippet');
+        await page.getByLabel('Language').selectOption('ts');
+        await page.getByLabel('Tags').fill('test, automated, playwright');
+        await page.getByLabel('Code Snippet').fill('console.log("Hello from Playwright E2E!");');
 
-    await page.getByRole('button', { name: 'Save Snippet' }).click();
+        await page.getByRole('button', { name: 'Save Snippet' }).click();
 
-    await expect(page).toHaveURL('/');
+        await expect(page).toHaveURL('/');
 
-    await expect(page.getByText('[E2E] Automated Test Snippet')).toBeVisible();
-});
+        await expect(page.getByText('[E2E] Automated Test Snippet')).toBeVisible();
+    });
 
-test('Delete the created snippet (Modal Confirmation Flow)', async ({ page }) => {
-    await page.goto('/');
+    test('Delete the created snippet (Modal Confirmation Flow)', async ({ page }) => {
+        await page.goto('/');
 
-    await page.getByText('[E2E] Automated Test Snippet').click();
+        await page.getByText('[E2E] Automated Test Snippet').click();
 
-    await expect(page).toHaveURL(/\/snippet\/\d+/);
+        await expect(page).toHaveURL(/\/snippet\/\d+/);
 
-    await page.locator('svg.lucide-trash-2').click();
+        await page.locator('svg.lucide-trash-2').click();
 
-    await expect(page.getByText('Are you sure you want to delete this snippet?')).toBeVisible();
+        await expect(page.getByText('Are you sure you want to delete this snippet?')).toBeVisible();
 
-    await page.getByRole('button', { name: 'Delete' }).click();
+        await page.getByRole('button', { name: 'Delete' }).click();
 
-    await expect(page).toHaveURL('/');
+        await expect(page).toHaveURL('/');
 
-    await expect(page.getByText('[E2E] Automated Test Snippet')).not.toBeVisible();
+        await expect(page.getByText('[E2E] Automated Test Snippet')).not.toBeVisible();
+    });
 });
