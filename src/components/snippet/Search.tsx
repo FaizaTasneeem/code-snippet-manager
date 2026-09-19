@@ -38,7 +38,7 @@ function Search() {
             <input className="w-full py-2.5 px-4 w-[50%] border border-gray-600 rounded-lg bg-[#111827] " type="text" value={searchQuery} onChange={handleSearchQueryChange} placeholder="🔍 Search snippets by title or tag..." />
 
             <div className="mt-4 flex flex-wrap justify-start md:justify-center gap-2 font-bold text-xs">
-                <Link href={generateLangLink("all")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "all" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>All</Link>
+                <Link href={generateLangLink("all")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "all" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>ALL</Link>
                 <Link href={generateLangLink("html")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "html" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>HTML</Link>
                 <Link href={generateLangLink("css")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "css" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>CSS</Link>
                 <Link href={generateLangLink("js")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "js" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>JS</Link>
