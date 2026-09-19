@@ -53,3 +53,37 @@ test.describe.serial('group', () => {
         await expect(page.getByText('[E2E] Automated Test Snippet')).not.toBeVisible();
     });
 });
+
+test('Search with Debounce', async ({ page }) => {
+    await page.goto('/');
+
+    await page.getByPlaceholder('🔍 Search snippets by title or tag...').fill('fibonacci');
+
+    await expect(page.getByText('firsthtml')).not.toBeVisible();
+    await expect(page.getByText('firstcss')).not.toBeVisible();
+    await expect(page.getByText('demo')).not.toBeVisible();
+    await expect(page.getByText('fibonacci')).toBeVisible();
+
+    await page.getByPlaceholder('🔍 Search snippets by title or tag...').fill('');
+
+    await expect(page.getByText('firsthtml')).toBeVisible();
+    await expect(page.getByText('firstcss')).toBeVisible();
+    await expect(page.getByText('demo')).toBeVisible();
+    await expect(page.getByText('fibonacci')).toBeVisible();
+
+});
+
+// test('Language Tab Filtering', async ({ page }) => {
+//     await page.goto('/');
+
+// });
+
+// test('Required Field Validation', async ({ page }) => {
+//     await page.goto('/');
+
+// });
+
+// test('Copy Code to Clipboard', async ({ page }) => {
+//     await page.goto('/');
+
+// });
