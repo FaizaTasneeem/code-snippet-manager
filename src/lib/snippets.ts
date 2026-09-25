@@ -58,6 +58,12 @@ export const create = snippetsWrapper(async (newSnippet: SnippetInsert) => {
 });
 
 
+export const createLanguage = snippetsWrapper(async (newLanguage: LanguageInsert) => {
+    await db.insert(languages).values(newLanguage);
+    return { success: true };
+});
+
+
 export const update = snippetsWrapper(async (id: number, code: string) => {
     await db.update(snippets).set({ code }).where(eq(snippets.id, id));
     return { success: true };

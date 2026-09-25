@@ -3,15 +3,21 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { create, remove, update } from "@/lib/snippets";
-import { dataSchema } from "@/lib/validations";
+import { create, remove, update, createLanguage } from "@/lib/snippets";
+import { dataSchema, langSchema } from "@/lib/validations";
 
 type formDataType = {
     title: string,
-    language: "html" | "css" | "js" | "ts" | "other",
+    language: string,
     code: string,
     tags: string
-}
+};
+
+type langFormData = {
+    name: string;
+    color: string;
+};
+
 
 export async function createSnippet(_previousState: any, newSnippetFormData: FormData) {
     const rawData = Object.fromEntries(newSnippetFormData) as formDataType;
@@ -74,6 +80,38 @@ export async function deleteSnippet(snippetId: number) {
         };
     }
 
+    revalidatePath("/");
+    redirect("/");
+}
+
+
+export async function addLanguage(_previousState: any, newLanguageData: FormData) {
+    const rawData = Object.fromEntries(newLanguageData) as langFormData;
+
+    try {
+        const validatedLanguage = langSchema.parse(rawData);
+        const createResponse = await createLanguage(validatedLanguage);
+        console.log(createResponse);
+    }
+    catch (error) {
+        if (error instanceof z.ZodError) {
+            const issueListWithDuplicate = error.issues.map(issue => {
+                return {
+                    errorField: issue.path[0],
+                    errorMsg: issue.message
+                }
+            })
+            const issueList = [...new Set(issueListWithDuplicate)];
+            return { ...rawData, error: issueList };
+        }
+        return {
+            ...rawData,
+            error: [{
+                errorField: null,
+                errorMsg: error instanceof Error ? error.message : "An unexpected error occurred.",
+            }]
+        };
+    }
     revalidatePath("/");
     redirect("/");
 }

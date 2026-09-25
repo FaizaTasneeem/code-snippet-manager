@@ -30,7 +30,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col justify-start items-center">
-        <header className="w-full py-2 px-20 flex justify-between items-center border-b border-b-gray-600 bg-[#111827] ">
+        <header className="w-full py-2 px-4 sm:px-8 md:px-20 flex justify-between items-center border-b border-b-gray-600 bg-[#111827] ">
           <Logo />
           <CreateButton />
         </header>
