@@ -1,5 +1,7 @@
 # Snippet Vault - Code Snippet Manager
 
+![CI](https://github.com/FaizaTasneeem/code-snippet-manager/actions/workflows/ci.yml/badge.svg)
+
 A high-performance, responsive code snippet manager built with **Next.js 16 (App Router)**, **React 19**, **TypeScript**, **Tailwind CSS v4**, and **Drizzle ORM**. This project showcases modern React patterns, full-stack Next.js architecture, robust server-side actions, relational PostgreSQL persistence, custom data filtering with state persistence, and client-side performance optimizations.
 
 🚀 **Ready for Portfolio / CV Showcase**
