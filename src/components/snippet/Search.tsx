@@ -3,11 +3,14 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
+import { LanguageSelect } from "@/db/schema";
+import AddLangModal from "../ui/AddLangModal";
 
-function Search() {
+function Search({ languageList }: { languageList: LanguageSelect[] | undefined }) {
     const searchParams = useSearchParams();
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
+    const [showAddLangModal, setShowAddLangModal] = useState(false);
 
     const currentLang = searchParams.get("lang") || "all";
 
@@ -39,12 +42,15 @@ function Search() {
 
             <div className="mt-4 flex flex-wrap justify-start md:justify-center gap-2 font-bold text-xs">
                 <Link href={generateLangLink("all")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "all" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>ALL</Link>
-                <Link href={generateLangLink("html")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "html" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>HTML</Link>
-                <Link href={generateLangLink("css")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "css" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>CSS</Link>
-                <Link href={generateLangLink("js")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "js" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>JS</Link>
-                <Link href={generateLangLink("ts")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "ts" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>TS</Link>
-                <Link href={generateLangLink("other")} className={`p-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "other" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>OTHER</Link>
+                {
+                    languageList?.map(lang => (
+                        <Link key={lang.id} href={generateLangLink(lang.name.toLocaleLowerCase())} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === lang.name.toLocaleLowerCase() ? "bg-cyan-500 text-black" : "border-gray-600"}`}>{lang.name.toLocaleUpperCase()}</Link>
+                    ))
+                }
+
+                <button className={`p-2 rounded-full border-2 w-18 truncate text-center cursor-pointer border-gray-600`} onClick={() => setShowAddLangModal(true)}>+ Add More</button>
             </div>
+            {showAddLangModal && <AddLangModal setShowAddLangModal={setShowAddLangModal} />}
         </div>
     )
 }

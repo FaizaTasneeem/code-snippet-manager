@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { getById } from "@/lib/snippets";
-import { SnippetSelect } from "@/db/schema";
+import { getAllLanguages, getById } from "@/lib/snippets";
+import { SnippetSelect, LanguageSelect } from "@/db/schema";
 import DeleteButton from "../../../components/snippet/DeleteButton";
 import CopyToClipBoardButton from "../../../components/snippet/CopyToClipBoardButton";
 import UpdateButton from "@/components/snippet/UpdateButton";
@@ -17,6 +17,8 @@ export default async function SingleSnippetPage({ params, searchParams }: {
     const { edit } = await searchParams;
 
     const snippet: SnippetSelect | undefined = await getById(Number(snippetId));
+    const languageList: LanguageSelect[] | undefined = await getAllLanguages();
+
     const isEditing = edit === "true";
 
 
@@ -31,7 +33,15 @@ export default async function SingleSnippetPage({ params, searchParams }: {
                     <div className="flex flex-col">
                         <span className="flex items-center gap-4">
                             {snippet.title}
-                            <span className="bg-blue-900 font-bold text-xs text-blue-400 p-1 px-2 rounded-lg border border-blue-600">{snippet.language.toLocaleUpperCase()}</span>
+                            <span
+                                style={{
+                                    borderColor: languageList?.find(lang => lang.name === snippet.language)?.color,
+                                    color: languageList?.find(lang => lang.name === snippet.language)?.color
+                                }}
+                                className="font-bold text-xs p-1 px-2 rounded-lg border"
+                            >
+                                {snippet.language.toLocaleUpperCase()}
+                            </span>
                         </span>
                         <span className="mt-2 text-sm text-gray-400">Created at - {new Date(snippet.createdAt).toDateString()}</span>
                     </div>

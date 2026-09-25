@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { snippets, SnippetSelect, SnippetInsert } from "@/db/schema";
+import { snippets, languages, SnippetSelect, SnippetInsert, LanguageSelect, LanguageInsert } from "@/db/schema";
 
 
 export const snippetsWrapper = <Arg extends any[], Return>(fn: (...args: Arg) => Promise<Return>) => {
@@ -20,6 +20,12 @@ export const snippetsWrapper = <Arg extends any[], Return>(fn: (...args: Arg) =>
 export const getAll = snippetsWrapper(async () => {
     const snippetsList: SnippetSelect[] = await db.select().from(snippets);
     return snippetsList;
+});
+
+
+export const getAllLanguages = snippetsWrapper(async () => {
+    const langList: LanguageSelect[] = await db.select().from(languages);
+    return langList;
 });
 
 
