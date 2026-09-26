@@ -26,6 +26,6 @@ export const langSchema = z.object({
     ),
     color: z.preprocess(
         (color: string) => (color.trim()),
-        z.string().min(1, { message: "This field cannot be empty" })
+        z.string().regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/, { message: "Must be a valid hex color (e.g. #3b82f6)" })
     ),
 });

@@ -29,7 +29,7 @@ function AddLangModal({ setShowAddLangModal }: { setShowAddLangModal: (val: bool
                             }
                         </label>
 
-                        <label htmlFor="language" className="flex flex-col items-start w-full mt-2 text-gray-300 text-sm font-bold">
+                        <label htmlFor="color" className="flex flex-col items-start w-full mt-2 text-gray-300 text-sm font-bold">
                             Color *
                             <input className={`w-full bg-[#0C0F19] p-4 py-2 my-2 border rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("color") ? 'border-red-400' : 'border-gray-600'}`} type="text" id="color" name="color" defaultValue={state?.color} required />
                             {getFieldError("color") &&

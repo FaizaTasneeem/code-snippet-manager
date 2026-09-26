@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { coldarkDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { SnippetSelect, LanguageSelect } from "@/db/schema";
+import { mapLanguageToPrism } from "@/lib/utils";
 
 function SnippetGridView({
     snippetsList,
@@ -10,7 +11,6 @@ function SnippetGridView({
     snippetsList: SnippetSelect[] | undefined,
     languageList: LanguageSelect[] | undefined
 }) {
-    console.log(languageList);
     return (
         <div className="w-full p-8 px-20 grid grid-cols-1 md:grid-cols-3 gap-4">
             {snippetsList?.map((snippet: SnippetSelect) => {
@@ -36,7 +36,7 @@ function SnippetGridView({
 
                         <div className="mt-2 w-full h-20 p-2 bg-[#0d1420] border border-gray-500 rounded-lg line-clamp-3 whitespace-pre-wrap">
                             <SyntaxHighlighter
-                                language={snippet.language}
+                                language={mapLanguageToPrism(snippet.language)}
                                 style={coldarkDark}
                                 customStyle={{ background: "transparent", backgroundColor: "transparent", margin: 0, padding: 0, fontSize: "0.7rem" }}
                             >

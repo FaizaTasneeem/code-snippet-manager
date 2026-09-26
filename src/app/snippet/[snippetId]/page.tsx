@@ -7,6 +7,7 @@ import DeleteButton from "../../../components/snippet/DeleteButton";
 import CopyToClipBoardButton from "../../../components/snippet/CopyToClipBoardButton";
 import UpdateButton from "@/components/snippet/UpdateButton";
 import EditSnippetForm from "@/components/snippet/EditSnippetForm";
+import { mapLanguageToPrism } from "@/lib/utils";
 
 export default async function SingleSnippetPage({ params, searchParams }: {
     params: Promise<{ snippetId: string }>,
@@ -64,7 +65,7 @@ export default async function SingleSnippetPage({ params, searchParams }: {
                             <EditSnippetForm snippetId={snippet.id} snippetCode={snippet.code} />
                         ) : (
                             <SyntaxHighlighter
-                                language={snippet.language}
+                                language={mapLanguageToPrism(snippet.language)}
                                 style={coldarkDark}
                                 customStyle={{ borderRadius: "0.75rem" }}
                                 showLineNumbers={true}
