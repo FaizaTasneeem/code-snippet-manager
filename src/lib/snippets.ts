@@ -3,6 +3,15 @@ import { db } from "@/db";
 import { snippets, languages, SnippetSelect, SnippetInsert, LanguageSelect, LanguageInsert } from "@/db/schema";
 
 
+const DEFAULT_LANGUAGES: LanguageInsert[] = [
+    { name: "html", color: "#e34f26" },
+    { name: "css", color: "#8B5CF6" },
+    { name: "js", color: "#f7df1e" },
+    { name: "ts", color: "#3178c6" },
+    { name: "other", color: "#9ca3af" },
+];
+
+
 export const snippetsWrapper = <Arg extends any[], Return>(fn: (...args: Arg) => Promise<Return>) => {
     return async (...args: Arg) => {
         try {
@@ -24,7 +33,12 @@ export const getAll = snippetsWrapper(async () => {
 
 
 export const getAllLanguages = snippetsWrapper(async () => {
-    const langList: LanguageSelect[] = await db.select().from(languages);
+    let langList: LanguageSelect[] = await db.select().from(languages);
+
+    if (langList.length === 0) {
+        await db.insert(languages).values(DEFAULT_LANGUAGES).onConflictDoNothing();
+        langList = await db.select().from(languages);
+    }
     return langList;
 });
 
@@ -36,7 +50,7 @@ export const getById = snippetsWrapper(async (id: number) => {
 
 
 export const getByLanguage = snippetsWrapper(async (lang: SnippetSelect["language"]) => {
-    const snippetsList: SnippetSelect[] = await db.select().from(snippets).where(eq(snippets.language, lang));
+    const snippetsList: SnippetSelect[] = await db.select().from(snippets).where(eq(snippets.language, lang.toLowerCase()));
     return snippetsList ? snippetsList : [];
 });
 

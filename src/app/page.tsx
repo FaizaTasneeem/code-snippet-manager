@@ -6,11 +6,11 @@ import { SnippetSelect, LanguageSelect } from "@/db/schema";
 export default async function Home({
   searchParams
 }: {
-  searchParams: Promise<{ q?: string, lang?: "js" | "ts" | "html" | "css" | "other" }>
+  searchParams: Promise<{ q?: string, lang?: string }>
 }) {
   const { q, lang = "all" } = await searchParams;
 
-  let snippetsList: SnippetSelect[] | undefined = lang === "all" ? await getAll() : await getByLanguage(lang);
+  let snippetsList: SnippetSelect[] | undefined = lang === "all" ? await getAll() : await getByLanguage(lang.toLowerCase());
   let languageList: LanguageSelect[] | undefined = await getAllLanguages();
 
   if (q && snippetsList) {

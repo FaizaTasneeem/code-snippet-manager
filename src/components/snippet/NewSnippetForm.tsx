@@ -26,7 +26,7 @@ function NewSnippetForm({ languageList }: { languageList: LanguageSelect[] | und
                         Language
                         <select className="bg-[#0C0F19] p-4 py-2 m-2 border border-gray-600 rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500" id="language" name="language" defaultValue={state?.language} required>
                             {languageList?.map(lang => (
-                                <option key={lang.id}>{lang.name}</option>
+                                <option key={lang.id} value={lang.name.toLowerCase()}>{lang.name}</option>
                             ))}
                         </select>
                     </label>

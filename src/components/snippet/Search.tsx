@@ -20,7 +20,7 @@ function Search({ languageList }: { languageList: LanguageSelect[] | undefined }
 
     function generateLangLink(lang: string) {
         const params = new URLSearchParams(searchParams.toString());
-        params.set("lang", lang);
+        params.set("lang", lang.toLocaleLowerCase());
         return `/?${params.toString()}`;
     }
 
@@ -44,7 +44,7 @@ function Search({ languageList }: { languageList: LanguageSelect[] | undefined }
                 <Link href={generateLangLink("all")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "all" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>ALL</Link>
                 {
                     languageList?.map(lang => (
-                        <Link key={lang.id} href={generateLangLink(lang.name.toLocaleLowerCase())} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === lang.name.toLocaleLowerCase() ? "bg-cyan-500 text-black" : "border-gray-600"}`}>{lang.name.toLocaleUpperCase()}</Link>
+                        <Link key={lang.id} href={generateLangLink(lang.name)} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === lang.name.toLocaleLowerCase() ? "bg-cyan-500 text-black" : "border-gray-600"}`}>{lang.name.toLocaleUpperCase()}</Link>
                     ))
                 }
 

@@ -20,8 +20,8 @@ function SnippetGridView({
                             <span className="truncate">{snippet.title}</span>
                             <span
                                 style={{
-                                    borderColor: languageList?.find(lang => lang.name === snippet.language)?.color,
-                                    color: languageList?.find(lang => lang.name === snippet.language)?.color
+                                    borderColor: languageList?.find(lang => lang.name.toLowerCase() === snippet.language.toLowerCase())?.color,
+                                    color: languageList?.find(lang => lang.name.toLowerCase() === snippet.language.toLowerCase())?.color
                                 }}
                                 className={`px-2 border rounded-lg text-sm truncate`}
                             >

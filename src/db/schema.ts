@@ -1,6 +1,6 @@
-import { pgTable, serial, text, pgEnum, date, integer } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, pgEnum, date } from "drizzle-orm/pg-core";
 
-export const languageEnum = pgEnum('language', ['html', 'css', 'js', 'ts', 'other']);
+// export const languageEnum = pgEnum('language', ['html', 'css', 'js', 'ts', 'other']);
 
 export const languages = pgTable('languages', {
     id: serial('id').primaryKey(),
@@ -12,7 +12,10 @@ export const snippets = pgTable('snippets', {
     id: serial('id').primaryKey(),
     title: text('title').notNull(),
     // language: languageEnum('language').notNull(),
-    language: text('language').notNull().references(() => languages.name, { onDelete: 'cascade' }),
+    language: text('language').notNull().references(() => languages.name, {
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+    }),
     tags: text('tags').array().notNull().default([]),
     code: text('code').notNull(),
     createdAt: date('created_at').notNull().defaultNow()

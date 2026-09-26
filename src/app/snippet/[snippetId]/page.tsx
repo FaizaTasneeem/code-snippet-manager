@@ -35,8 +35,8 @@ export default async function SingleSnippetPage({ params, searchParams }: {
                             {snippet.title}
                             <span
                                 style={{
-                                    borderColor: languageList?.find(lang => lang.name === snippet.language)?.color,
-                                    color: languageList?.find(lang => lang.name === snippet.language)?.color
+                                    borderColor: languageList?.find(lang => lang.name.toLowerCase() === snippet.language.toLowerCase())?.color,
+                                    color: languageList?.find(lang => lang.name.toLowerCase() === snippet.language.toLowerCase())?.color
                                 }}
                                 className="font-bold text-xs p-1 px-2 rounded-lg border"
                             >

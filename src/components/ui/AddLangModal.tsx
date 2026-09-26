@@ -9,13 +9,16 @@ function AddLangModal({ setShowAddLangModal }: { setShowAddLangModal: (val: bool
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-            <div className="bg-[#111827] text-lg text-center border border-gray-600 rounded-lg flex flex-col px-4 py-2">
+            <div className="w-full max-w-md bg-[#111827] text-lg text-center border border-gray-600 rounded-lg flex flex-col px-4 py-2">
 
-                <div className="px-4 py-2 flex flex-col items-start">
+                <div className="p-2 flex flex-col items-start">
                     <h1 className="text-xl">Add programming language</h1>
                     <h4 className="text-sm text-gray-500 mt-2">Define a new language for snippet tagging and color coding.</h4>
                 </div>
 
+                {getFieldError("root") && (
+                    <p className="mt-2 text-red-400 text-sm">{getFieldError("root")}</p>
+                )}
                 <form className="w-full flex flex-col p-4" action={formAction}>
                     <div className="w-full flex flex-col gap-4">
                         <label htmlFor="name" className="flex flex-col items-start w-full mt-2 text-gray-300 text-sm font-bold">
@@ -33,10 +36,11 @@ function AddLangModal({ setShowAddLangModal }: { setShowAddLangModal: (val: bool
                                 <p className="text-red-400">{getFieldError("color")}</p>
                             }
                         </label>
+
                     </div>
 
                     <div className="w-full flex justify-between text-sm">
-                        <button className="w-1/2 p-2 m-2 mt-8 border border-gray-600 rounded-lg cursor-pointer" onClick={() => setShowAddLangModal(false)}>Cancel</button>
+                        <button className="w-1/2 p-2 m-2 mt-8 border border-gray-600 rounded-lg cursor-pointer" onClick={() => setShowAddLangModal(false)} type="button">Cancel</button>
                         <button className="w-1/2 p-2 m-2 mt-8 bg-cyan-500 text-black text-sm font-semibold rounded-lg shadow-lg cursor-pointer" type="submit">Add Language</button>
                     </div>
 

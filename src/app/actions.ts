@@ -93,7 +93,7 @@ export async function addLanguage(_previousState: any, newLanguageData: FormData
         const createResponse = await createLanguage(validatedLanguage);
         console.log(createResponse);
     }
-    catch (error) {
+    catch (error: any) {
         if (error instanceof z.ZodError) {
             const issueListWithDuplicate = error.issues.map(issue => {
                 return {
@@ -104,10 +104,19 @@ export async function addLanguage(_previousState: any, newLanguageData: FormData
             const issueList = [...new Set(issueListWithDuplicate)];
             return { ...rawData, error: issueList };
         }
+        if (error?.cause?.code === "23505") {
+            return {
+                ...rawData,
+                error: [{
+                    errorField: "root",
+                    errorMsg: "A language with this name already exists.",
+                }]
+            };
+        }
         return {
             ...rawData,
             error: [{
-                errorField: null,
+                errorField: "root",
                 errorMsg: error instanceof Error ? error.message : "An unexpected error occurred.",
             }]
         };
