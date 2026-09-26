@@ -88,3 +88,9 @@ export const remove = snippetsWrapper(async (id: number) => {
     await db.delete(snippets).where(eq(snippets.id, id));
     return { success: true };
 });
+
+
+export const removeLanguage = snippetsWrapper(async (id: number) => {
+    await db.delete(languages).where(eq(languages.id, id));
+    return { success: true };
+});

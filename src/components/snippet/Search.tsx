@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
+import { X } from "lucide-react";
+import { deleteLanguage } from "@/app/actions";
 import { LanguageSelect } from "@/db/schema";
 import AddLangModal from "../ui/AddLangModal";
-import { X } from "lucide-react";
 
 function Search({ languageList }: { languageList: LanguageSelect[] | undefined }) {
     const searchParams = useSearchParams();
@@ -57,7 +58,7 @@ function Search({ languageList }: { languageList: LanguageSelect[] | undefined }
                             >
                                 {lang.name.toLocaleUpperCase()}
                                 {lang.id === langFilterId &&
-                                    <div><X size={16} /></div>
+                                    <div onClick={() => deleteLanguage(lang.id)}><X size={16} /></div>
                                 }
                             </Link>
                         ))

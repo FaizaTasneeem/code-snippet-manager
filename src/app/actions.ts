@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { create, remove, update, createLanguage } from "@/lib/snippets";
+import { create, remove, update, createLanguage, removeLanguage } from "@/lib/snippets";
 import { dataSchema, langSchema } from "@/lib/validations";
 
 type formDataType = {
@@ -74,7 +74,7 @@ export async function deleteSnippet(snippetId: number) {
         console.log(deleteResponse);
     }
     catch (error) {
-        console.log("Caught error in server action while deleting: ", error);
+        console.log("Caught error in server action while deleting snippet: ", error);
         return {
             error: error instanceof Error ? error.message : "Failed to delete snippet"
         };
@@ -83,7 +83,6 @@ export async function deleteSnippet(snippetId: number) {
     revalidatePath("/");
     redirect("/");
 }
-
 
 export async function addLanguage(_previousState: any, newLanguageData: FormData) {
     const rawData = Object.fromEntries(newLanguageData) as langFormData;
@@ -121,6 +120,22 @@ export async function addLanguage(_previousState: any, newLanguageData: FormData
             }]
         };
     }
+    revalidatePath("/");
+    redirect("/");
+}
+
+export async function deleteLanguage(languageId: number) {
+    try {
+        const deleteResponse = await removeLanguage(languageId);
+        console.log(deleteResponse);
+    }
+    catch (error) {
+        console.log("Caught error in server action while deleting language: ", error);
+        return {
+            error: error instanceof Error ? error.message : "Failed to delete language"
+        };
+    }
+
     revalidatePath("/");
     redirect("/");
 }
