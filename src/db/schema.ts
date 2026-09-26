@@ -13,7 +13,7 @@ export const snippets = pgTable('snippets', {
     title: text('title').notNull(),
     // language: languageEnum('language').notNull(),
     language: text('language').notNull().references(() => languages.name, {
-        onDelete: 'cascade',
+        // onDelete: 'cascade',
         onUpdate: 'cascade'
     }),
     tags: text('tags').array().notNull().default([]),

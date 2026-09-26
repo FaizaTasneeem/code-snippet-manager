@@ -5,12 +5,14 @@ import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { LanguageSelect } from "@/db/schema";
 import AddLangModal from "../ui/AddLangModal";
+import { X } from "lucide-react";
 
 function Search({ languageList }: { languageList: LanguageSelect[] | undefined }) {
     const searchParams = useSearchParams();
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
     const [showAddLangModal, setShowAddLangModal] = useState(false);
+    const [langFilterId, setLangFilterId] = useState(-1);
 
     const currentLang = searchParams.get("lang") || "all";
 
@@ -49,9 +51,14 @@ function Search({ languageList }: { languageList: LanguageSelect[] | undefined }
                             <Link
                                 key={lang.id}
                                 href={generateLangLink(lang.name)}
-                                className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === lang.name.toLocaleLowerCase() ? "bg-cyan-500 text-black" : "border-gray-600"}`}
+                                className={`p-1 py-2 flex gap-2 justify-center rounded-full border-2 w-20 truncate text-center cursor-pointer ${currentLang === lang.name.toLocaleLowerCase() ? "bg-cyan-500 text-black" : "border-gray-600"}`}
+                                onMouseEnter={() => { if (!["html", "css", "js", "ts"].includes(lang.name)) setLangFilterId(lang.id) }}
+                                onMouseLeave={() => setLangFilterId(-1)}
                             >
                                 {lang.name.toLocaleUpperCase()}
+                                {lang.id === langFilterId &&
+                                    <div><X size={16} /></div>
+                                }
                             </Link>
                         ))
                 }

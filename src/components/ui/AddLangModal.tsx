@@ -1,11 +1,30 @@
+import { useState } from "react";
 import { useActionState } from "react";
 import { addLanguage } from "@/app/actions";
 import { LanguageSelect } from "@/db/schema";
 
 function AddLangModal({ setShowAddLangModal }: { setShowAddLangModal: (val: boolean) => void }) {
+    const [selectColorByRadio, setSelectColorByRadio] = useState("#ef4444");
     const [state, formAction, isPending] = useActionState(addLanguage, null);
 
+    function handleColorChangeByRadio(event: React.ChangeEvent<HTMLInputElement>) {
+        setSelectColorByRadio(event.target.value);
+    }
+
     const getFieldError = (field: string) => state?.error?.find(i => i.errorField === field)?.errorMsg;
+
+    const PRESET_COLORS = [
+        { hex: "#ef4444", bgClass: "bg-red-500" },
+        { hex: "#f97316", bgClass: "bg-orange-500" },
+        { hex: "#eab308", bgClass: "bg-yellow-500" },
+        { hex: "#22c55e", bgClass: "bg-green-500" },
+        { hex: "#10b981", bgClass: "bg-emerald-500" },
+        { hex: "#06b6d4", bgClass: "bg-cyan-500" },
+        { hex: "#3b82f6", bgClass: "bg-blue-500" },
+        { hex: "#6366f1", bgClass: "bg-indigo-500" },
+        { hex: "#a855f7", bgClass: "bg-purple-500" },
+        { hex: "#ec4899", bgClass: "bg-pink-500" },
+    ];
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
@@ -31,10 +50,25 @@ function AddLangModal({ setShowAddLangModal }: { setShowAddLangModal: (val: bool
 
                         <label htmlFor="color" className="flex flex-col items-start w-full mt-2 text-gray-300 text-sm font-bold">
                             Color *
-                            <input className={`w-full bg-[#0C0F19] p-4 py-2 my-2 border rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("color") ? 'border-red-400' : 'border-gray-600'}`} type="text" id="color" name="color" defaultValue={state?.color} required />
+                            <input type="text" id="color" name="color" value={selectColorByRadio} onChange={handleColorChangeByRadio} className={`w-full bg-[#0C0F19] p-4 py-2 my-2 border rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("color") ? 'border-red-400' : 'border-gray-600'}`} required />
                             {getFieldError("color") &&
                                 <p className="text-red-400">{getFieldError("color")}</p>
                             }
+
+                            <div className="flex gap-2 mt-2">
+                                {PRESET_COLORS.map(({ hex, bgClass }) => (
+                                    <input
+                                        key={hex}
+                                        type="radio"
+                                        name="color-radio"
+                                        value={hex}
+                                        checked={selectColorByRadio === hex}
+                                        onChange={handleColorChangeByRadio}
+                                        className={`appearance-none w-4 h-4 rounded-full ${bgClass} cursor-pointer checked:ring-2 checked:ring-white checked:ring-offset-2 checked:ring-offset-[#111827]`}
+                                    />
+                                ))}
+                            </div>
+
                         </label>
 
                     </div>
