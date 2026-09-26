@@ -43,11 +43,31 @@ function Search({ languageList }: { languageList: LanguageSelect[] | undefined }
             <div className="mt-4 flex flex-wrap justify-start md:justify-center gap-2 font-bold text-xs">
                 <Link href={generateLangLink("all")} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === "all" ? "bg-cyan-500 text-black" : "border-gray-600"}`}>ALL</Link>
                 {
-                    languageList?.map(lang => (
-                        <Link key={lang.id} href={generateLangLink(lang.name)} className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === lang.name.toLocaleLowerCase() ? "bg-cyan-500 text-black" : "border-gray-600"}`}>{lang.name.toLocaleUpperCase()}</Link>
-                    ))
+                    languageList
+                        ?.filter(lang => lang.name.toLowerCase() !== "other")
+                        .map(lang => (
+                            <Link
+                                key={lang.id}
+                                href={generateLangLink(lang.name)}
+                                className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === lang.name.toLocaleLowerCase() ? "bg-cyan-500 text-black" : "border-gray-600"}`}
+                            >
+                                {lang.name.toLocaleUpperCase()}
+                            </Link>
+                        ))
                 }
-
+                {
+                    languageList
+                        ?.filter(lang => lang.name.toLowerCase() === "other")
+                        .map(lang => (
+                            <Link
+                                key={lang.id}
+                                href={generateLangLink(lang.name)}
+                                className={`p-1 py-2 rounded-full border-2 w-18 truncate text-center cursor-pointer ${currentLang === lang.name.toLocaleLowerCase() ? "bg-cyan-500 text-black" : "border-gray-600"}`}
+                            >
+                                {lang.name.toLocaleUpperCase()}
+                            </Link>
+                        ))
+                }
                 <button className={`p-2 rounded-full border-2 w-18 truncate text-center cursor-pointer border-gray-600`} onClick={() => setShowAddLangModal(true)}>+ Add More</button>
             </div>
             {showAddLangModal && <AddLangModal setShowAddLangModal={setShowAddLangModal} />}
