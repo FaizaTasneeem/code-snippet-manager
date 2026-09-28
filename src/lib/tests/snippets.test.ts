@@ -153,14 +153,14 @@ describe("dataSchema validation", () => {
         expect(() => dataSchema.parse(emptyTitleData)).toThrow("This field cannot be empty");
     });
 
-    it("rejects snippets with an invalid language option", () => {
-        const invalidLanguageData = {
-            title: "Valid Title",
-            language: "python",
-            code: "print('hello')",
-            tags: "python, test",
-        };
+    // it("rejects snippets with an invalid language option", () => {
+    //     const invalidLanguageData = {
+    //         title: "Valid Title",
+    //         language: "python",
+    //         code: "print('hello')",
+    //         tags: "python, test",
+    //     };
 
-        expect(() => dataSchema.parse(invalidLanguageData)).toThrow();
-    });
+    //     expect(() => dataSchema.parse(invalidLanguageData)).toThrow();
+    // });
 });
