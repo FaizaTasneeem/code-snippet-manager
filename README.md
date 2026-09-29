@@ -13,11 +13,13 @@ A high-performance, responsive code snippet manager built with **Next.js 16 (App
 ## 🛠️ Key Skills & Tech Stack Demonstrated
 
 * **Next.js 16 (App Router) & React 19:** Layouts, nested dynamic routing (`/snippet/[snippetId]`), Loading Skeletons (`loading.tsx`), custom error templates (`not-found.tsx`), and Suspense boundaries.
-* **Database & Persistence (Drizzle ORM + PostgreSQL):** Type-safe database management with **Drizzle ORM** and **PostgreSQL** schema definitions (`src/db/schema.ts`), replacing legacy file-system persistence with production-ready relational data access.
-* **Server-Side Architecture (Server Actions):** Implementation of `"use server"` actions (`createSnippet`, `updateSnippet`, `deleteSnippet`) bridging client interactions directly to database operations without API boilerplate.
-* **TypeScript & Inferred Schemas:** Type safety end-to-end utilizing Drizzle's `$inferSelect` and `$inferInsert` types alongside Zod validation schemas.
-* **Runtime Schema Validation:** Integration of **Zod** for preprocessing and validating form data (titles, language enums, tag arrays, and code body) on both creation and mutation.
-* **Syntax Highlighting & UX:** Beautiful syntax highlighting integrated via **`react-syntax-highlighter`** across grid card previews and detail view modes.
+* **Database & Persistence (Drizzle ORM + PostgreSQL):** Type-safe relational database management with **Drizzle ORM** and **PostgreSQL** schema definitions (`src/db/schema.ts`), featuring relational foreign-key constraints (`snippets` -> `languages`) and cascade deletions.
+* **Dynamic Language System & Prism Aliasing:** Full support for extensible programming languages with preset/custom hex color coding, database auto-seeding, and intelligent Prism syntax alias mapping (`c++` → `cpp`, `golang` → `go`, etc.).
+* **Server-Side Architecture (Server Actions):** Implementation of `"use server"` actions (`createSnippet`, `updateSnippet`, `deleteSnippet`, `addLanguage`, `deleteLanguage`) bridging client interactions directly to database operations with path revalidation.
+* **TypeScript & Inferred Schemas:** Type safety end-to-end utilizing Drizzle's `$inferSelect` and `$inferInsert` types alongside dynamic Zod validation schemas.
+* **Runtime Schema Validation:** Integration of **Zod** for preprocessing and validating form data dynamically against registered database languages, hex color regexes, and tag arrays.
+* **Comprehensive Testing (Vitest & Playwright):** Complete test pyramid including mocked Vitest unit tests for database queries and Zod validations, paired with Playwright end-to-end tests for critical user workflows.
+* **Syntax Highlighting & UX:** Beautiful syntax highlighting integrated via **`react-syntax-highlighter`** (Coldark Dark theme) across grid card previews and detail view modes.
 * **Performance Optimizations:** Custom client-side debouncing (500ms) on text search to prevent input-lag and excessive layout recalculation.
 * **State Persistence in URLs:** Built-in preservation of search query strings (`?q=...`) and language category filters (`?lang=...`) using `URLSearchParams` to support shareable state.
 * **Modern React & UI Components:** Extracted modular UI system with custom modals, toast notifications, responsive snippet count badges, and state-driven copy-to-clipboard functionality.
@@ -27,28 +29,31 @@ A high-performance, responsive code snippet manager built with **Next.js 16 (App
 ## 🌟 Key Features
 
 1. **Dynamic Code Search:** Case-insensitive, partial-match title and tag search with real-time feedback and a live snippet count badge.
-2. **Language Filters:** Category navigation filters allowing instant classification across `HTML`, `CSS`, `JS`, `TS`, and `Other`.
-3. **Controlled Creation Form:** Input preprocessing with Zod, category select menus, and automatic parsing of comma-separated strings into tag arrays.
-4. **Inline Code Editing:** Edit code snippets directly in the detail view with live state synchronization and server action persistence.
-5. **Syntax Highlighting:** Formatted and styled code display powered by `react-syntax-highlighter` for high readability.
-6. **Copy-to-Clipboard Utility:** Custom hook wrapper enabling one-click copying of code snippets with success notification toasts/modals.
-7. **PostgreSQL Relational Persistence:** Robust data storage managed through Drizzle ORM queries and mutations.
-8. **Polished Skeleton Loaders:** Tailwind-animated loaders across main views, creation forms, and snippet details to eliminate Layout Shifts (CLS).
+2. **Custom Language Management:** Add new programming languages with custom hex colors or preset palette swatches. Automatically populates filter tabs and snippet dropdowns, and supports one-click deletion with database cascade.
+3. **Language Filters:** Category navigation filters allowing instant classification across all registered languages, with "Other" anchored at the end.
+4. **Controlled Creation Form:** Input preprocessing with dynamic Zod schemas, language select menus, and automatic parsing of comma-separated strings into tag arrays.
+5. **Inline Code Editing:** Edit code snippets directly in the detail view with live state synchronization and server action persistence.
+6. **Syntax Highlighting & Alias Resolution:** Formatted and styled code display powered by `react-syntax-highlighter` with automatic Prism alias resolution (`shell` → `bash`, `c#` → `csharp`, etc.).
+7. **Copy-to-Clipboard Utility:** Custom hook wrapper enabling one-click copying of code snippets with success notification toasts.
+8. **PostgreSQL Relational Persistence:** Relational data storage managed through Drizzle ORM queries and migrations.
+9. **Polished Skeleton Loaders:** Tailwind-animated loaders across main views, creation forms, and snippet details to eliminate Layout Shifts (CLS).
 
 ---
 
 ## 📂 Architecture & Directory Highlights
 
-* **`src/db/`**: Database configuration (`index.ts`) and Drizzle ORM schema definitions (`schema.ts`) defining the Postgres `snippets` table and enums.
-* **`src/app/actions.ts`**: Server Actions (`createSnippet`, `updateSnippet`, `deleteSnippet`) handling full-stack data mutation, Zod validation, and revalidation.
-* **`src/lib/snippets.ts`**: Data access layer encapsulating Drizzle database queries (`getAll`, `getById`, `getByLanguage`, `create`, `update`, `remove`).
+* **`src/db/`**: Database configuration (`index.ts`) and Drizzle ORM schema definitions (`schema.ts`) defining the Postgres `snippets` and `languages` tables with cascade relations.
+* **`src/app/actions.ts`**: Server Actions (`createSnippet`, `updateSnippet`, `deleteSnippet`, `addLanguage`, `deleteLanguage`) handling full-stack data mutation, Zod validation, and revalidation.
+* **`src/lib/snippets.ts`**: Data access layer encapsulating Drizzle database queries and auto-seeding defaults (`getAll`, `getAllLanguages`, `create`, `createLanguage`, `removeLanguage`, etc.).
+* **`src/lib/validations.ts`**: Dynamic Zod validation schemas (`createSchema`, `langSchema`).
 * **`src/components/`**: Modularized component hierarchy:
   * **`layout/`**: Header, navigation buttons (`CreateButton`), and `Logo`.
-  * **`snippet/`**: `SnippetGridView`, `Search`, `EditSnippetForm`, `DeleteButton`, `CopyToClipBoardButton`, and syntax highlighting integration.
-  * **`ui/`**: Reusable `Modal` and `Toast` feedback components.
-* **`src/app/snippet/[snippetId]/`**: Dynamic route for detailed viewing, syntax highlighting, code updating, and secure deletion.
+  * **`snippet/`**: `SnippetGridView`, `Search`, `NewSnippetForm`, `EditSnippetForm`, `DeleteButton`, `CopyToClipBoardButton`, and syntax highlighting integration.
+  * **`ui/`**: Reusable `Modal`, `AddLangModal`, and `Toast` feedback components.
+* **`src/app/snippet/[snippetId]/`**: Dynamic route for detailed viewing, syntax highlighting, code updating, and deletion.
 * **`src/app/loading.tsx` & `not-found.tsx`**: System-level UX enhancements for loading skeletons and 404 pages.
-* **`drizzle.config.ts`**: Drizzle Kit configuration pointing to schema definitions and database credentials.
+* **`e2e/`**: Playwright end-to-end test suite (`snippets.spec.ts`).
+* **`src/lib/tests/`**: Vitest unit test suite covering DB access functions, search queries, and validation schemas.
 
 ---
 
@@ -69,6 +74,22 @@ npm install
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
+
+## 🧪 Testing
+
+### Run Unit Tests (Vitest)
+```bash
+npm run test:run
+```
+
+### Run End-to-End Tests (Playwright)
+```bash
+npm run test:e2e
+```
+Or run with UI mode:
+```bash
+npm run test:e2e:ui
+```
