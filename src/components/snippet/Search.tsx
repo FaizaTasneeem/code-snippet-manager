@@ -58,7 +58,7 @@ function Search({ languageList }: { languageList: LanguageSelect[] | undefined }
                             >
                                 {lang.name.toLocaleUpperCase()}
                                 {lang.id === langFilterId &&
-                                    <div onClick={() => deleteLanguage(lang.id)}><X size={16} /></div>
+                                    <div onClick={(e) => { e.stopPropagation(); deleteLanguage(lang.id) }}><X size={16} /></div>
                                 }
                             </Link>
                         ))

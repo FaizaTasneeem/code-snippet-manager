@@ -42,7 +42,7 @@ function AddLangModal({ setShowAddLangModal }: { setShowAddLangModal: (val: bool
                     <div className="w-full flex flex-col gap-4">
                         <label htmlFor="name" className="flex flex-col items-start w-full mt-2 text-gray-300 text-sm font-bold">
                             Programming Language *
-                            <input className={`w-full bg-[#0C0F19] p-4 py-2 my-2 border rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("name") ? 'border-red-400' : 'border-gray-600'}`} type="text" id="name" name="name" defaultValue={state?.name} required />
+                            <input className={`w-full bg-[#0C0F19] p-4 py-2 my-2 border rounded-lg text-gray-300 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("name") ? 'border-red-400' : 'border-gray-600'}`} type="text" id="name" name="name" defaultValue={state?.name} required />
                             {getFieldError("name") &&
                                 <p className="text-red-400">{getFieldError("name")}</p>
                             }
@@ -50,7 +50,7 @@ function AddLangModal({ setShowAddLangModal }: { setShowAddLangModal: (val: bool
 
                         <label htmlFor="color" className="flex flex-col items-start w-full mt-2 text-gray-300 text-sm font-bold">
                             Color *
-                            <input type="text" id="color" name="color" value={selectColorByRadio} onChange={handleColorChangeByRadio} className={`w-full bg-[#0C0F19] p-4 py-2 my-2 border rounded-lg text-gray-600 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("color") ? 'border-red-400' : 'border-gray-600'}`} required />
+                            <input type="text" id="color" name="color" value={selectColorByRadio} onChange={handleColorChangeByRadio} className={`w-full bg-[#0C0F19] p-4 py-2 my-2 border rounded-lg text-gray-300 focus:outline-none focus:ring-1 focus:ring-cyan-500 ${getFieldError("color") ? 'border-red-400' : 'border-gray-600'}`} required />
                             {getFieldError("color") &&
                                 <p className="text-red-400">{getFieldError("color")}</p>
                             }
