@@ -2,8 +2,8 @@ import { vi, describe, it, expect, beforeEach } from "vitest";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { snippets } from "@/db/schema";
-import { getAll, getById, getByTitleOrTags, create, update, remove } from "../snippets";
-import { dataSchema } from "../validations";
+import { getAll, getById, getByTitleOrTags, create, update, remove, getAllLanguages } from "../snippets";
+import { createSchema } from "../validations";
 
 
 vi.mock("@/db", () => (
@@ -21,6 +21,13 @@ const dummySnippets = [
     { id: 1, title: 'React Hook', language: 'ts' as const, tags: ['react', 'frontend'], code: 'const x = 1;', createdAt: new Date().toISOString() },
     { id: 2, title: 'CSS Grid', language: 'css' as const, tags: ['styling', 'grid'], code: '.box { display: grid; }', createdAt: new Date().toISOString() },
     { id: 3, title: 'HTML', language: 'css' as const, tags: [], code: '.box { display: grid; }', createdAt: new Date().toISOString() },
+];
+
+const dummyLanguages = [
+    { id: 1, name: "html", color: "#e34f26" },
+    { id: 2, name: "css", color: "#8B5CF6" },
+    { id: 3, name: "js", color: "#f7df1e" },
+    { id: 4, name: "ts", color: "#3178c6" },
 ];
 
 const newSnippet = {
@@ -149,18 +156,30 @@ describe("dataSchema validation", () => {
             code: "const x = 1;",
             tags: "typescript, test",
         };
-
+        const validLangList = dummyLanguages.map(l => l.name.toLowerCase());
+        const dataSchema = createSchema(validLangList);
         expect(() => dataSchema.parse(emptyTitleData)).toThrow("This field cannot be empty");
     });
 
-    // it("rejects snippets with an invalid language option", () => {
-    //     const invalidLanguageData = {
-    //         title: "Valid Title",
-    //         language: "python",
-    //         code: "print('hello')",
-    //         tags: "python, test",
-    //     };
+    it("rejects snippets with an invalid language option", async () => {
+        vi.mocked(db.select).mockReturnValue({
+            from: vi.fn().mockReturnValue(dummyLanguages)
+        } as any);
 
-    //     expect(() => dataSchema.parse(invalidLanguageData)).toThrow();
-    // });
+        const allLangs = await getAllLanguages();
+
+        expect(allLangs).toEqual(dummyLanguages);
+
+        const invalidLanguageData = {
+            title: "Valid Title",
+            language: "python",
+            code: "print('hello')",
+            tags: "python, test",
+        };
+
+        const validLangList = allLangs.map(l => l.name.toLowerCase());
+
+        const dataSchema = createSchema(validLangList);
+        expect(() => dataSchema.parse(invalidLanguageData)).toThrow(`Must be 1 of the listed language: ${validLangList.join(", ")}`);
+    });
 });

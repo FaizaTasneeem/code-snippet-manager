@@ -3,8 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { create, remove, update, createLanguage, removeLanguage } from "@/lib/snippets";
-import { dataSchema, langSchema } from "@/lib/validations";
+import { create, remove, update, getAllLanguages, createLanguage, removeLanguage } from "@/lib/snippets";
+import { createSchema, langSchema } from "@/lib/validations";
 
 type formDataType = {
     title: string,
@@ -23,6 +23,10 @@ export async function createSnippet(_previousState: any, newSnippetFormData: For
     const rawData = Object.fromEntries(newSnippetFormData) as formDataType;
 
     try {
+        const allLangs = await getAllLanguages();
+        const validLangList = allLangs.map(l => l.name.toLowerCase());
+
+        const dataSchema = createSchema(validLangList);
         const validatedSnippet = dataSchema.parse(rawData);
         const createResponse = await create(validatedSnippet);
         console.log(createResponse);

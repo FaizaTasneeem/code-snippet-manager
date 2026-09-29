@@ -1,23 +1,28 @@
 import { z } from "zod";
 
-export const dataSchema = z.object({
-    title: z.preprocess(
-        (title: string) => (title.trim()),
-        z.string().min(1, { message: "This field cannot be empty" })
-    ),
-    language: z.preprocess(
-        (lang: string) => (lang.trim().toLowerCase()),
-        z.string()
-    ),
-    tags: z.preprocess(
-        (tags: string) => (tags.trim() ? tags.split(",").map(t => t.trim()).filter(t => t.length > 0) : []),
-        z.array(z.string()).min(1, { message: "This field cannot be empty" })
-    ),
-    code: z.preprocess(
-        (code: string) => (code.trim()),
-        z.string().min(1, { message: "This field cannot be empty" })
-    ),
-});
+export const createSchema = (validLangList: string[]) => (
+    z.object({
+        title: z.preprocess(
+            (title: string) => (title.trim()),
+            z.string().min(1, { message: "This field cannot be empty" })
+        ),
+        language: z.preprocess(
+            (lang: string) => (lang.trim().toLowerCase()),
+            z.string().refine(
+                (val) => (validLangList.includes(val.toLowerCase())),
+                { message: `Must be 1 of the listed language: ${validLangList.join(", ")}` }
+            )
+        ),
+        tags: z.preprocess(
+            (tags: string) => (tags.trim() ? tags.split(",").map(t => t.trim()).filter(t => t.length > 0) : []),
+            z.array(z.string()).min(1, { message: "This field cannot be empty" })
+        ),
+        code: z.preprocess(
+            (code: string) => (code.trim()),
+            z.string().min(1, { message: "This field cannot be empty" })
+        ),
+    })
+);
 
 export const langSchema = z.object({
     name: z.preprocess(
