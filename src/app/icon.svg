@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">
+  <!-- Dark Blue Background with Cyan Border -->
+  <rect x="1" y="1" width="30" height="30" rx="6" fill="#102839" stroke="#06B6D4" stroke-width="2" />
+  
+  <!-- Terminal Chevron > -->
+  <path d="M9 10.5L14.5 16L9 21.5" stroke="#06B6D4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Terminal Cursor _ -->
+  <path d="M17.5 21.5H23.5" stroke="#06B6D4" stroke-width="2.2" stroke-linecap="round" />
+</svg>
